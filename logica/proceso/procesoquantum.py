@@ -6,8 +6,3 @@ class ProcesoQuantum(Proceso):
 		Proceso.__init__(self, nombre, tiempo, sistema, recursos)
 
 		self.cuanto = 0
-
-	def ejecutar(self):
-		Proceso.ejecutar(self)
-
-		print self.cuanto

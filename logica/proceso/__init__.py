@@ -1,5 +1,5 @@
 from proceso import Proceso
-from proceso import EJECUTANDO
+from proceso import LISTO
 from proceso import BLOQUEADO
 from proceso import TERMINADO
 

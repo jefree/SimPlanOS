@@ -8,12 +8,12 @@ class Procesador():
 
 	def ejecutar(self):
 
-		self.planificador.planificar(self)
+		self.planificador.planificar_pre(self)
 		
 		if self.proceso_asignado:
 			self.proceso_asignado.ejecutar()
-		else:
-			print "No hay proceso asignado"
+
+		self.planificador.planificar_post(self)
 
 	def agregar_proceso(self, nombre, tiempo, sistema, recursos):
-		self.planificador.agregar_proceso(nombre, tiempo, sistema, recursos)
+		return self.planificador.agregar_proceso(nombre, tiempo, sistema, recursos)

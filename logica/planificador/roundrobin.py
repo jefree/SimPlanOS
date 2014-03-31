@@ -1,6 +1,7 @@
 from planificador import Planificador
 from logica.proceso import *
 from logica.util import Cola
+import os
 
 class RoundRobin(Planificador):
 	
@@ -8,7 +9,7 @@ class RoundRobin(Planificador):
 		Planificador.__init__(self)
 		
 		self.cuanto_suspendido = 3
-		self.contador_suspendido = 0
+		self.contador_suspendido = 3
 
 	def obtener_proceso(self):
 
@@ -31,6 +32,19 @@ class RoundRobin(Planificador):
 
 		return proceso
 
+	def plan_listo(self, proceso_actual):
+
+		asignar_nuevo = False
+
+		if proceso_actual.cuanto == 0:
+			self.suspendidos.insertar(proceso_actual)
+			asignar_nuevo = True
+
+		else:	
+			proceso_actual.cuanto -= 1
+
+		return asignar_nuevo
+
 	def plan_suspendidos(self):
 
 		if not self.suspendidos.vacia():
@@ -42,22 +56,52 @@ class RoundRobin(Planificador):
 
 				self.calcular_cuantos()
 
+				self.vista.informar_entra_listo()
+
 			else:
 				self.contador_suspendido -= 1
 
 	def calcular_cuantos(self):
 
 		cola = Cola()
+		lista = self.listos.listar()
+
+		medio = sum(p.tiempo for p in lista) / len(lista)
+
 		proceso = self.listos.atender()
 
 		while proceso:
 
-			proceso.cuanto = 3
+			dist = proceso.tiempo - medio
+			cuanto = medio
+
+			if dist > 0:
+
+				if dist > medio * 0.5:
+					cuanto = medio * 1.3
+				else:
+					cuanto = medio
+			else:
+
+				if dist < medio*-0.5:
+					cuanto = proceso.tiempo
+				else:
+					cuanto = proceso.tiempo*0.8
+
+			proceso.cuanto = int(round(cuanto))
+
 			cola.insertar(proceso)
 			proceso = self.listos.atender()
 
 		self.listos = cola
 
 	def agregar_proceso(self, nombre, tiempo, sistema, recursos):
-		self.listos.insertar(ProcesoQuantum(nombre, tiempo, sistema, recursos))
+		
+		p = ProcesoQuantum(nombre, tiempo, sistema, recursos)
+
+		self.listos.insertar(p)
 		self.calcular_cuantos()
+
+		self.vista.informar_entra_listo()
+
+		return p

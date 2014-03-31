@@ -2,6 +2,10 @@ R_NO_USADO = 0
 R_USADO = 1
 R_BLOQUEADO = 2
 
+R_RETIRADO = 3
+R_BLOQUEANDO = 4
+
+
 class Recurso():
 
 	def __init__(self, nombre):
@@ -18,3 +22,12 @@ class Recurso():
 	def liberar(self):
 		self.proceso = None
 		self.estado = R_NO_USADO
+
+	def bloquear(self, bloqueo):
+
+		print "here", self.nombre
+
+		if bloqueo:
+			self.estado = R_BLOQUEADO
+		else:
+			self.estado = R_NO_USADO

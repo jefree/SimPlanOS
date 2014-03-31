@@ -10,48 +10,48 @@ class Planificador():
 		self.suspendidos = Cola()
 		self.bloqueados = Cola()
 
-
-	def planificar(self, procesador):
+	def planificar_pre(self, procesador):
 		
 		asignar_nuevo = False
 		proceso_actual = procesador.proceso_asignado
 
 		self.plan_bloqueados()
 		self.plan_suspendidos()
-		
-		if proceso_actual:
 
+		if proceso_actual:
 			estado = proceso_actual.estado
 
 			if estado == TERMINADO:
 				asignar_nuevo = True
 
-			elif estado == BLOQUEADO:
-				self.bloqueados.insertar(proceso_actual)
-				asignar_nuevo = True
+			elif estado == LISTO:
 
-			elif estado == EJECUTANDO:
+				asignar_nuevo = self.plan_listo(proceso_actual)
 
-				if proceso_actual.cuanto == 0:
-					self.suspendidos.insertar(proceso_actual)
-					asignar_nuevo = True
-				
-				else:
-					proceso_actual.cuanto -= 1
+				if asignar_nuevo:
+					self.vista.informar_suspendido()
 		else:
 			asignar_nuevo = True
 
 		if asignar_nuevo:
+
 			procesador.proceso_asignado = self.obtener_proceso()
+			
+			self.vista.informar_nuevo()
 
-		print ""
-		print ""
-		print "BLOQUEADOS"
+	def planificar_post(self, procesador):
 		
-		for p in self.bloqueados.listar():
-			print p.nombre, p.recurso_bloqueado
+		proceso_actual = procesador.proceso_asignado
 
-		print "-------------"
+		if proceso_actual:
+			estado = proceso_actual.estado
+
+			if estado == BLOQUEADO:
+
+				self.vista.informar_bloqueado()
+
+				self.bloqueados.insertar(proceso_actual)
+				procesador.proceso_asignado = None
 
 	def plan_bloqueados(self):
 
@@ -64,15 +64,20 @@ class Planificador():
 
 		while proceso:
 
-			if proceso.solicitar_recurso_bloqueado():
+			if proceso.solicitar_desbloqueo():
 				self.suspendidos.insertar(proceso)
+
+				self.vista.informar_desbloqueado(proceso.nombre)
+
 			else:
-				print proceso.nombre, "no obtuvo bloqueado", proceso.recurso_bloqueado
 				cola.insertar(proceso)
 
 			proceso = self.bloqueados.atender()
 
 		self.bloqueados = cola
+
+	def asignar_vista(self, vista):
+		self.vista = vista
 
 	def obtener_proceso(self):
 		pass
@@ -81,4 +86,7 @@ class Planificador():
 		pass
 
 	def agregar_proceso(self):
+		pass
+
+	def plan_listo(self, proceso):
 		pass
