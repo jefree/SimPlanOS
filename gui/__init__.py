@@ -1,1 +1,1 @@
-from myapp import MyApp
+from rrapp import RRApp

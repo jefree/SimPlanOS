@@ -14,14 +14,12 @@ TIEMPO_SLEEP = 1
 
 class SimPlanOS(FloatLayout):
 	
-	def __init__(self, sistema):
+	def __init__(self):
 		FloatLayout.__init__(self)
 
-		self.sistema = sistema
-		self.procesadores = [ProcesadorGUI(p) for p in sistema.procesadores]
-		
-		self.tabla_procesos = TablaProcesosRR(sistema.procesos)
-		self.tabla_recursos = TablaRecursosGUI(sistema.recursos)
+		self.inicializar()
+	
+		self.tabla_recursos = TablaRecursosGUI(self.sistema.recursos)
 
 		self.ejecutando = False
 		self.paso = False
@@ -33,6 +31,9 @@ class SimPlanOS(FloatLayout):
 		self.c_recursos.add_widget(self.tabla_recursos)
 
 		self.sistema.asignar_vista(self)
+
+	def inicializar(self):
+		pass
 
 	def actualizar(self):
 
@@ -112,14 +113,14 @@ class ProcesadorGUI(BoxLayout):
 
 		self.procesador.planificador.asignar_vista(self)
 
+		self.visores = { 'nombre': self.ids.nombre, 'tiempo': self.ids.tiempo}
+
 	def actualizar(self):
 
 		proceso = self.procesador.proceso_asignado
 
 		if proceso:
-			self.ids.nombre.text = proceso.nombre
-			self.ids.tiempo.text = str(proceso.tiempo)
-			self.ids.cuanto.text = str(proceso.cuanto)
+			self.actualizar_info_proceso(proceso)
 
 		self.ids.c_suspendido.text = str(self.procesador.planificador.contador_suspendido)
 
@@ -134,13 +135,11 @@ class ProcesadorGUI(BoxLayout):
 		global TIEMPO_SLEEP
 
 		self.suspendidos.actualizar(self.procesador.planificador.suspendidos)
-		
+
 		proceso = self.procesador.proceso_asignado
 
 		if proceso:
-			self.ids.nombre.text = proceso.nombre
-			self.ids.tiempo.text = str(proceso.tiempo)
-			self.ids.cuanto.text = str(proceso.cuanto)
+			self.actualizar_info_proceso(proceso)
 		else:
 			self.limpiar_info_proceso()
 
@@ -170,10 +169,15 @@ class ProcesadorGUI(BoxLayout):
 
 		sleep(TIEMPO_SLEEP)
 
+	def actualizar_info_proceso(self, proceso):
+
+		self.visores['nombre'].text = proceso.nombre
+		self.visores['tiempo'].text = str(proceso.tiempo)
+
 	def limpiar_info_proceso(self):
-		self.ids.nombre.text = '-'
-		self.ids.tiempo.text = '-'
-		self.ids.cuanto.text = '-'
+
+		for v in self.visores.values():
+			v.text = ''
 
 	def informar_desbloqueado(self, proceso):
 

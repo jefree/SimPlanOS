@@ -1,11 +1,11 @@
 
 import gui
-from gui import MyApp
+from gui import RRApp
 
 import thread
 from time import sleep
 
-app = MyApp()
+app = RRApp()
 
 def ejecutar():
 

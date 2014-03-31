@@ -37,29 +37,6 @@ class TablaProcesosGUI(BoxLayout):
 		for proceso in self.procesos.values():
 			tiempo = self.tiempos[proceso.nombre]
 			tiempo.text = str(proceso.tiempo)
-
-class TablaProcesosRR(TablaProcesosGUI):
-
-	def agregar(self, nombre):
-		TablaProcesosGUI.agregar(self, nombre)
-
-		print "procesos hijo",self.procesos
-
-		proceso = self.procesos[nombre]
-
-		caja = self.cajas[proceso.nombre]
-		cuanto = Label(text=str(proceso.cuanto))
-
-		caja.add_widget(cuanto)
-		self.visores[proceso.nombre] = cuanto
-
-	def actualizar(self):
-		TablaProcesosGUI.actualizar(self)
-
-		for proceso in self.procesos.values():
-
-			visor = self.visores[proceso.nombre]
-			visor.text = str(proceso.cuanto)
 			
 
 class TablaRecursosGUI(BoxLayout):
