@@ -1,6 +1,6 @@
 from kivy.app import App
 
-from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
 
 from kivy.uix.label import Label
@@ -12,10 +12,10 @@ from popups import *
 
 TIEMPO_SLEEP = 1
 
-class SimPlanOS(FloatLayout):
+class SimPlanOS(Screen):
 	
-	def __init__(self):
-		FloatLayout.__init__(self)
+	def __init__(self, **kwargs):
+		Screen.__init__(self, **kwargs)
 
 		self.inicializar()
 	

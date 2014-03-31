@@ -68,6 +68,10 @@
 				size_hint_y: 0.15
 
 				Button:
+					text: "Before"
+					on_press: root.manager.current = root.manager().previous()
+
+				Button:
 					text: 'Iniciar'
 					on_press: root.iniciar()
 
@@ -80,12 +84,16 @@
 					on_press: root.hacer_paso()
 
 				Button:
-					text: 'Agregar Proceso'
+					text: 'Proceso'
 					on_press: root.mostrar_popup_proceso()
 
 				Button: 
-					text: 'Agregar Recursos'
+					text: 'Recursos'
 					on_press: root.mostrar_popup_recurso()
+
+				Button:
+					text: "Next"
+					on_press: root.manager.current = root.manager.next()
 
 <ProcesadorGUI>:
 	orientation: 'vertical'
