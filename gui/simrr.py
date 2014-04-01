@@ -14,7 +14,6 @@ class SimPlanRR(SimPlanOS):
 		self.procesadores = [ProcesadorRR(p) for p in self.sistema.procesadores]
 		self.tabla_procesos = TablaProcesosRR(self.sistema.procesos)
 
-
 class ProcesadorRR(ProcesadorGUI):
 
 	def __init__(self, procesador):
@@ -32,8 +31,6 @@ class TablaProcesosRR(TablaProcesosGUI):
 
 	def agregar(self, nombre):
 		TablaProcesosGUI.agregar(self, nombre)
-
-		print "procesos hijo",self.procesos
 
 		proceso = self.procesos[nombre]
 

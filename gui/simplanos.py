@@ -112,9 +112,10 @@ class ProcesadorGUI(BoxLayout):
 		self.suspendidos = ListaProcesosSuspendidos(self.ids.suspendidos)
 		self.bloqueados = ListaProcesosBloqueados(self.ids.bloqueados)
 
-		self.procesador.planificador.asignar_vista(self)
-
+		self.diagrama_gantt = DiagramaGantt(self.procesador.gantt, self.procesador.nombre)
 		self.visores = { 'nombre': self.ids.nombre, 'tiempo': self.ids.tiempo}
+
+		self.procesador.planificador.asignar_vista(self)
 
 	def actualizar(self):
 
@@ -130,6 +131,8 @@ class ProcesadorGUI(BoxLayout):
 		self.listos.actualizar(self.procesador.planificador.listos)
 		self.suspendidos.actualizar(self.procesador.planificador.suspendidos)
 		self.bloqueados.actualizar(self.procesador.planificador.bloqueados)
+
+		self.diagrama_gantt.actualizar()
 
 	def informar_nuevo(self):
 
@@ -154,6 +157,7 @@ class ProcesadorGUI(BoxLayout):
 		sleep(TIEMPO_SLEEP)
 
 	def informar_entra_listo(self):
+
 		self.listos.actualizar(self.procesador.planificador.listos)
 		self.suspendidos.actualizar(self.procesador.planificador.suspendidos)
 
@@ -188,6 +192,10 @@ class ProcesadorGUI(BoxLayout):
 		self.ids.l_info.text = "proceso %s desbloqueado" % proceso
 
 		sleep(TIEMPO_SLEEP)
+
+	def mostrar_gantt(self):
+		self.diagrama_gantt.open()
+
 
 class ListaProcesos():
 

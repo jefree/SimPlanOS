@@ -33,14 +33,14 @@ class Proceso():
 
 			if estado == R_NO_USADO:
 
-				if True: #randint(0, 2) == 0:
+				if randint(0, 5) == 0:
 					self.solicitar_recurso(recurso)
 						
 			elif estado == R_USADO:
 
 				if self.solicitar_recurso(recurso):
 
-					if False:#randint(0, 1) == 0:
+					if randint(0, 1) == 0:
 						self.liberar_recurso(recurso)
 
 	def solicitar_recurso(self, recurso):
