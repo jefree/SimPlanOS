@@ -1,8 +1,9 @@
 from planificador import Planificador
 from logica.proceso import ProcesoPrioridad
 from logica.util import Cola
+from logica.proceso import LISTO
 
-class PrioridadNoApropiativo(Planificador):
+class PrioridadApropiativo(Planificador):
 
 	def obtener_proceso(self):
 		
@@ -40,8 +41,10 @@ class PrioridadNoApropiativo(Planificador):
 
 			if self.contador_suspendido == 0:
 				
-				#self.listos.insertar(self.suspendidos.atender())
-				self.agregar_ordenado(self.suspendidos.atender())
+				p = self.suspendidos.atender()
+				p.estado = LISTO
+				
+				self.agregar_ordenado(p)
 				self.contador_suspendido = self.cuanto_suspendido
 
 				self.vista.informar_entra_listo()

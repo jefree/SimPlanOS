@@ -32,6 +32,7 @@ class Planificador():
 				asignar_nuevo = self.plan_listo(proceso_actual)
 
 				if asignar_nuevo:
+					proceso_actual.estado = SUSPENDIDO
 					self.vista.informar_suspendido()
 		else:
 			asignar_nuevo = True
@@ -39,6 +40,7 @@ class Planificador():
 		if asignar_nuevo:
 
 			procesador.proceso_asignado = self.obtener_proceso()
+			procesador.proceso_asignado.estado = LISTO
 			
 			self.vista.informar_nuevo()
 
@@ -68,7 +70,8 @@ class Planificador():
 		while proceso:
 
 			if proceso.solicitar_desbloqueo():
-				self.suspendidos.insertar(proceso)
+				self.listos.insertar(proceso)
+				proceso.estado = LISTO
 
 				self.vista.informar_desbloqueado(proceso.nombre)
 

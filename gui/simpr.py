@@ -15,11 +15,7 @@ class SimPlanPR(SimPlanOS):
 		self.procesadores = [ProcesadorGUI(p) for p in self.sistema.procesadores]
 		self.tabla_procesos = TablaProcesosPR(self.sistema.procesos)
 
-	def mostrar_popup_proceso(self):
-		PrioridadPopup(self.sistema).open()
-
-	def mostrar_popup_recurso(self):
-		PrioridadPopup(self.sistema).open()
+		self.popup_proceso = PrioridadPopup(self.sistema)
 
 class TablaProcesosPR(TablaProcesosGUI):
 
@@ -58,3 +54,5 @@ class PrioridadPopup(ProcesoPopup):
 		n_procesador = int(self.txt_procesador.text)
 
 		self.sistema.agregar_proceso(nombre, tiempo, recursos, n_procesador, prioridad=prioridad)
+
+		self.prioridad.text = ""

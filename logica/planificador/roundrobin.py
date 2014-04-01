@@ -1,5 +1,6 @@
 from planificador import Planificador
 from logica.proceso import ProcesoQuantum
+from logica.proceso import LISTO
 from logica.util import Cola
 import os
 
@@ -47,7 +48,10 @@ class RoundRobin(Planificador):
 
 			if self.contador_suspendido == 0:
 				
-				self.listos.insertar(self.suspendidos.atender())
+				p = self.suspendidos.atender()
+				p.estado = LISTO
+
+				self.listos.insertar(p)
 				self.contador_suspendido = self.cuanto_suspendido
 
 				self.calcular_cuantos()

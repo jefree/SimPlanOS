@@ -1,3 +1,4 @@
+from proceso import *
 from collections import OrderedDict
 
 class Procesador():
@@ -26,10 +27,20 @@ class Procesador():
 
 		for p in self.procesos.values():
 
-			if p == self.proceso_asignado:
+			if p.nombre == self.proceso_asignado.nombre:
 				self.gantt[p.nombre].append('X')
-			else:
-				self.gantt[p.nombre].append('O')
+			
+			elif p.estado == SUSPENDIDO:
+				self.gantt[p.nombre].append('S')
+
+			elif p.estado == BLOQUEADO:
+				self.gantt[p.nombre].append('B')
+
+			elif p.estado == LISTO:
+				self.gantt[p.nombre].append('L')
+
+			elif p.estado == TERMINADO:
+				self.gantt[p.nombre].append('T')
 
 	def agregar_proceso(self, nombre, tiempo, sistema, recursos, **kwargs):
 		

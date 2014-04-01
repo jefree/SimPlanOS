@@ -25,7 +25,8 @@ class SimPlanOS(Screen):
 		self.inicializar()
 
 		self.ids.titulo.text = "Simulacion para "+self.name
-	
+		
+		self.popup_recurso = RecursoPopup(self.sistema)
 		self.tabla_recursos = TablaRecursosGUI(self.sistema.recursos)
 
 		self.ejecutando = False
@@ -82,16 +83,17 @@ class SimPlanOS(Screen):
 		self.paso = True
 
 	def mostrar_popup_proceso(self):
-		pass
+		self.popup_proceso.open()
 
 	def mostrar_popup_recurso(self):
-		pass
+		self.popup_recurso.open()
 
 	def informar_nuevo_proceso(self, nombre):
 		self.tabla_procesos.agregar(nombre)
 
 	def informar_nuevo_recurso(self, nombre):
 		self.tabla_recursos.agregar(nombre)
+		self.popup_proceso.agregar_recurso(nombre)
 
 	def informar_solicitud(self, proceso, recurso):
 		self.l_info.text = "%s solicita %s" % (proceso, recurso)
@@ -119,7 +121,7 @@ class ProcesadorGUI(BoxLayout):
 		self.bloqueados = ListaProcesosBloqueados(self.ids.bloqueados)
 
 		self.diagrama_gantt = DiagramaGantt(self.procesador.gantt, self.procesador.nombre)
-		self.visores = { 'nombre': self.ids.nombre, 'tiempo': self.ids.tiempo}
+		self.visores = { 'nombre': self.ids.nombre, 'tiempo': self.ids.tiempo, 'recursos':self.ids.recursos}
 
 		self.procesador.planificador.asignar_vista(self)
 
@@ -184,6 +186,7 @@ class ProcesadorGUI(BoxLayout):
 
 		self.visores['nombre'].text = proceso.nombre
 		self.visores['tiempo'].text = str(proceso.tiempo)
+		self.visores['recursos'].text = str(proceso.listar_recursos_usados())
 
 	def limpiar_info_proceso(self):
 
@@ -193,7 +196,7 @@ class ProcesadorGUI(BoxLayout):
 	def informar_desbloqueado(self, proceso):
 
 		self.bloqueados.actualizar(self.procesador.planificador.bloqueados)
-		self.suspendidos.actualizar(self.procesador.planificador.suspendidos)
+		self.listos.actualizar(self.procesador.planificador.listos)
 
 		self.ids.l_info.text = "proceso %s desbloqueado" % proceso
 
@@ -210,7 +213,6 @@ class ListaProcesos():
 		
 	def actualizar(self):
 		self.layout.clear_widgets()
-
 
 class ListaProcesosListos(ListaProcesos):
 		

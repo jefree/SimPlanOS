@@ -1,2 +1,2 @@
 from roundrobin import RoundRobin
-from prioridad import PrioridadNoApropiativo
+from prioridad import PrioridadApropiativo

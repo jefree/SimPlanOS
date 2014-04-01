@@ -11,15 +11,11 @@ class SimPlanRR(SimPlanOS):
 
 	def inicializar(self):
 		
-		self.sistema = SistemaRR(3)
+		self.sistema = SistemaRR(2)
 		self.procesadores = [ProcesadorRR(p) for p in self.sistema.procesadores]
 		self.tabla_procesos = TablaProcesosRR(self.sistema.procesos)
 
-	def mostrar_popup_proceso(self):
-		QuantumPopup(self.sistema).open()
-
-	def mostrar_popup_recurso(self):
-		QuantumPopup(self.sistema).open()
+		self.popup_proceso = QuantumPopup(self.sistema)
 
 class ProcesadorRR(ProcesadorGUI):
 

@@ -5,6 +5,7 @@ from logica.recurso import *
 LISTO = 0
 BLOQUEADO = 1
 TERMINADO = 2
+SUSPENDIDO = 3
 
 class Proceso():
 
@@ -145,6 +146,15 @@ class Proceso():
 
 		return lista
 
+	def listar_recursos_usados(self):
+
+		lista = []
+
+		for recurso, estado in self.recursos_necesarios.iteritems():
+			if estado == R_USADO:
+				lista.append(recurso)
+
+		return lista
 
 	def terminar(self):
 

@@ -18,9 +18,6 @@ class ProcesoPopup(Popup):
 		self.btn_lista.bind(on_release=self.lista_recursos.open)
 		self.lista_recursos.bind(on_select=self.usar_recurso)
 
-		for recurso in self.sistema.recursos:
-			self.agregar_recurso(recurso)
-
 	def agregar_recurso(self, recurso):
 
 		btn = Button(text=recurso, size_hint_y=None, height=44)
@@ -32,6 +29,11 @@ class ProcesoPopup(Popup):
 		self.txt_recursos.text = self.txt_recursos.text + recurso + ", "
 
 	def agregar(self):
+
+		self.txt_nombre.text = ""
+		self.txt_tiempo = ""
+		self.txt_recursos.text = ""
+		
 		self.dismiss()
 
 class RecursoPopup(Popup):
@@ -86,8 +88,18 @@ class DiagramaGantt(Popup):
 
 			if info[self.tiempo] == 'X':
 				color = (0,1,0,1)
-			else:
+			
+			elif info[self.tiempo] == 'S':
 				color = (1,0,1,1)
+
+			elif info[self.tiempo] == 'B':
+				color = (1,0,0,1)
+
+			elif info[self.tiempo] == 'L':
+				color = (1,1,1,1)
+
+			elif info[self.tiempo] == 'T':
+				color = (1,1,0,1)
 
 			fila.add_widget(Label(size_hint_x=None, width=25, text=info[self.tiempo], color=color))
 

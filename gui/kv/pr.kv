@@ -8,7 +8,8 @@
 		orientation: 'vertical'
 
 		Label:
-			color: 1,0,0,1
+			color: 0.5,0.5,0.5,1
+			font_size: '25dp'
 			size_hint_y: 0.1
 			id: titulo
 
@@ -137,12 +138,17 @@
 			Label:
 				color: (0,0,1,1)
 				text: 'Tiempo'
+			Label:
+				color: (0,0,1,1)
+				text: 'Recursos'
 
 		BoxLayout:
 			Label:
 				id: nombre
 			Label:
 				id: tiempo
+			Label:
+				id: recursos
 
 	BoxLayout:
 		size_hint_y: 1.0

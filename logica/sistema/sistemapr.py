@@ -1,6 +1,6 @@
 from sistema import Sistema
 from logica.procesador import Procesador
-from logica.planificador import PrioridadNoApropiativo
+from logica.planificador import PrioridadApropiativo
 
 class SistemaPR(Sistema):
 
@@ -8,4 +8,4 @@ class SistemaPR(Sistema):
 		Sistema.__init__(self)
 
 		for n in range(n_procesadores):
-			self.procesadores.append(Procesador("Procesador %d" % (n+1), PrioridadNoApropiativo()))
+			self.procesadores.append(Procesador("Procesador %d" % (n+1), PrioridadApropiativo()))
