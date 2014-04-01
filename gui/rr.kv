@@ -9,6 +9,7 @@
 
 		# layout procesadores
 		BoxLayout: 
+			size_hint_y: 1.5
 			id: procesadores
 
 		# demas elementos del gui
@@ -20,11 +21,11 @@
 
 				# tabla con info de los procesos
 				BoxLayout:
-					size_hint_y: 0.8
+					size_hint_y: 0.7
 					orientation: 'vertical'
 
 					BoxLayout:
-						size_hint_y: 0.2
+						size_hint_y: 0.3
 
 						Label:
 							color: (0,0,1,1)
@@ -36,16 +37,23 @@
 							color: (0,0,1,1)
 							text: 'Cuanto'
 					
-					BoxLayout:
-						id: c_procesos
+					ScrollView:
+						do_scroll_x: False
+						GridLayout:
+							height: 150
+							spacing: 10
+							cols: 1
+							size_hint_y: None
+							orientation: 'vertical'
+							id: c_procesos
 
 				#tabla info recursos
 				BoxLayout:
-					size_hint_y: 0.8
+					size_hint_y: 0.7
 					orientation: 'vertical'
 
 					BoxLayout:
-						size_hint_y: 0.2
+						size_hint_y: 0.3
 						Label:
 							color: (0,1,1,1)
 							text: 'Recurso'
@@ -56,8 +64,15 @@
 							color: (0,1,1,1)
 							text: 'Bloqueado'
 
-					BoxLayout:
-						id: c_recursos
+					ScrollView:
+						do_scroll_x: False
+						GridLayout:
+							height: 150
+							spacing: 10
+							cols: 1
+							size_hint_y: None
+							orientation: 'vertical'
+							id: c_recursos
 
 			Label:
 				id: l_info
@@ -65,7 +80,7 @@
 				text: 'Informacion'
 
 			BoxLayout:
-				size_hint_y: 0.15
+				size_hint_y: 0.2
 
 				Button:
 					text: "Before"
@@ -98,61 +113,90 @@
 <ProcesadorGUI>:
 	orientation: 'vertical'
 
-	Label
-		color: (1,0,1,1)
-		id: id_procesador
+	BoxLayout:
+		size_hint_y: 1.2
+		orientation: "vertical"
+		
+		Label:
+			color: (1,0,1,1)
+			id: id_procesador
 
-	Label:
-		id: l_info
-		size_hint_y: 0.2
-		text: 'Informacion'
+		Label:
+			id: l_info
+			text: 'Informacion'
+
+		BoxLayout:
+			Label:
+				color: (0,0,1,1)
+				text: 'Proceso'
+			Label:
+				color: (0,0,1,1)
+				text: 'Tiempo'
+			Label:
+				color: (0,0,1,1)
+				text: 'Cuanto'
+
+		BoxLayout:
+			Label:
+				id: nombre
+			Label:
+				id: tiempo
+			Label:
+				id: cuanto
 
 	BoxLayout:
-
-		Label:
-			color: (0,0,1,1)
-			text: 'Proceso'
-		Label:
-			color: (0,0,1,1)
-			text: 'Tiempo'
-		Label:
-			color: (0,0,1,1)
-			text: 'Cuanto'
+		size_hint_y: 1.0
+		orientation: 'vertical'
+		Button:
+			size_hint_y: 0.3
+			color: (0,1,0,1)
+			text:'LISTOS'
+		ScrollView:
+			do_scroll_x: False
+			GridLayout:
+				height: 150
+				spacing: 10
+				cols: 1
+				size_hint_y: None
+				orientation: 'vertical'
+				id: listos
 
 	BoxLayout:
+		size_hint_y: 1.0
+		orientation: 'vertical'
+		Button:
+			size_hint_y: 0.3
+			color: (0,1,0,1)
+			text:'SUSPENDIDOS'
+		Label:
+			size_hint_y: 0.3
+			color: (1,0,0,1)
+			id: c_suspendido
+		ScrollView:
+			do_scroll_x: False
+			GridLayout:
+				height: 150
+				spacing: 10
+				cols: 1
+				size_hint_y: None
+				orientation: 'vertical'
+				id: suspendidos
 
-		Label:
-			id: nombre
-		Label:
-			id: tiempo
-		Label:
-			id: cuanto
-
-	Label:
-		color: (0,1,0,1)
-		text:'LISTOS'
 	BoxLayout:
 		orientation: 'vertical'
-		id: listos
-
-	Label:
-		color: (0,1,0,1)
-		text:'SUSPENDIDOS'
-
-	Label:
-		color: (1,0,0,1)
-		id: c_suspendido
-
-	BoxLayout:
-		orientation: 'vertical'
-		id: suspendidos
-
-	Label:
-		color: (0,1,0,1)
-		text:'BLOQUEADOS'
-	BoxLayout:
-		orientation: 'vertical'
-		id: bloqueados
+		Button:
+			size_hint_y: 0.3
+			color: (0,1,0,1)
+			text:'BLOQUEADOS'
+		ScrollView:
+			do_scroll_x: False
+			GridLayout:
+				height: 150
+				spacing: 10
+				cols: 1
+				size_hint_y: None
+				orientation: 'vertical'
+				id: bloqueados
 
 <ProcesoPopup>:
 	

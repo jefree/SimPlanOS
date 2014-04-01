@@ -4,13 +4,14 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
 
 from kivy.uix.label import Label
+from kivy.uix.button import Button
 
 from time import sleep
 
 from tablas import *
 from popups import *
 
-TIEMPO_SLEEP = 1
+TIEMPO_SLEEP = 0
 
 class SimPlanOS(Screen):
 	
@@ -163,7 +164,7 @@ class ProcesadorGUI(BoxLayout):
 		nombre = self.procesador.proceso_asignado.nombre
 		bloqueando = ', '.join(self.procesador.proceso_asignado.listar_recursos_bloqueando())
 
-		self.ids.l_info.text = "proceso %s bloqueado por %s" % (nombre, bloqueando)
+		self.ids.l_info.text = "%s bloqueado por %s" % (nombre, bloqueando)
 
 		self.limpiar_info_proceso()
 
