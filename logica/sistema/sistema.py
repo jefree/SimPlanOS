@@ -23,7 +23,7 @@ class Sistema():
 
 		self.plan_recursos()
 	
-	def agregar_proceso(self, nombre, tiempo, recursos, n_procesador):
+	def agregar_proceso(self, nombre, tiempo, recursos, n_procesador, **kwargs):
 
 		n = self.contador_procesador
 		self.contador_procesador = (self.contador_procesador+1) % len(self.procesadores)
@@ -32,7 +32,7 @@ class Sistema():
 		if n_procesador >= 0 and n_procesador < len(self.procesadores):
 			n = n_procesador
 
-		proceso = self.procesadores[n].agregar_proceso(nombre, tiempo, self, recursos)
+		proceso = self.procesadores[n].agregar_proceso(nombre, tiempo, self, recursos, **kwargs)
 
 		self.procesos[proceso.nombre] = proceso
 

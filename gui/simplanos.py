@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.lang import Builder
 
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
@@ -16,9 +17,14 @@ TIEMPO_SLEEP = 0
 class SimPlanOS(Screen):
 	
 	def __init__(self, **kwargs):
+
+		Builder.load_file(kwargs['archivo'])
+
 		Screen.__init__(self, **kwargs)
 
 		self.inicializar()
+
+		self.ids.titulo.text = "Simulacion para "+self.name
 	
 		self.tabla_recursos = TablaRecursosGUI(self.sistema.recursos)
 
@@ -76,10 +82,10 @@ class SimPlanOS(Screen):
 		self.paso = True
 
 	def mostrar_popup_proceso(self):
-		ProcesoPopup(self.sistema).open()
+		pass
 
 	def mostrar_popup_recurso(self):
-		RecursoPopup(self.sistema).open()
+		pass
 
 	def informar_nuevo_proceso(self, nombre):
 		self.tabla_procesos.agregar(nombre)
@@ -212,7 +218,7 @@ class ListaProcesosListos(ListaProcesos):
 		ListaProcesos.actualizar(self)
 			
 		for proceso in procesos.listar():
-			self.layout.add_widget(Label(text=proceso.nombre))
+			self.layout.add_widget(Label(size_hint_y=None, height=15, text=proceso.nombre))
 
 class ListaProcesosSuspendidos(ListaProcesos):	
 
@@ -220,7 +226,7 @@ class ListaProcesosSuspendidos(ListaProcesos):
 		ListaProcesos.actualizar(self)
 			
 		for proceso in procesos.listar():
-			self.layout.add_widget(Label(text=proceso.nombre))
+			self.layout.add_widget(Label(size_hint_y=None, height=15, text=proceso.nombre))
 
 class ListaProcesosBloqueados(ListaProcesos):
 
@@ -231,4 +237,4 @@ class ListaProcesosBloqueados(ListaProcesos):
 
 			bloqueando = ', '.join([r for r in proceso.listar_recursos_bloqueando()])
 
-			self.layout.add_widget(Label(text=proceso.nombre + ": " + bloqueando ))
+			self.layout.add_widget(Label(size_hint_y=None, height=15, text=proceso.nombre + ": " + bloqueando ))

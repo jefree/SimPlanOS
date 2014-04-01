@@ -31,9 +31,9 @@ class Procesador():
 			else:
 				self.gantt[p.nombre].append('O')
 
-	def agregar_proceso(self, nombre, tiempo, sistema, recursos):
+	def agregar_proceso(self, nombre, tiempo, sistema, recursos, **kwargs):
 		
-		proceso = self.planificador.agregar_proceso(nombre, tiempo, sistema, recursos)
+		proceso = self.planificador.agregar_proceso(nombre, tiempo, sistema, recursos, **kwargs)
 		self.procesos[proceso.nombre] = proceso
 		self.gantt[proceso.nombre] = []
 

@@ -3,6 +3,7 @@ from kivy.uix.label import Label
 from simplanos import SimPlanOS
 from simplanos import ProcesadorGUI
 from tablas import TablaProcesosGUI
+from popups import ProcesoPopup
 
 from logica.sistema import SistemaRR
 
@@ -13,6 +14,12 @@ class SimPlanRR(SimPlanOS):
 		self.sistema = SistemaRR(3)
 		self.procesadores = [ProcesadorRR(p) for p in self.sistema.procesadores]
 		self.tabla_procesos = TablaProcesosRR(self.sistema.procesos)
+
+	def mostrar_popup_proceso(self):
+		QuantumPopup(self.sistema).open()
+
+	def mostrar_popup_recurso(self):
+		QuantumPopup(self.sistema).open()
 
 class ProcesadorRR(ProcesadorGUI):
 
@@ -47,3 +54,19 @@ class TablaProcesosRR(TablaProcesosGUI):
 
 			visor = self.visores[proceso.nombre]
 			visor.text = str(proceso.cuanto)
+
+class QuantumPopup(ProcesoPopup):
+
+	def agregar(self):
+		ProcesoPopup.agregar(self)
+
+		nombre = self.txt_nombre.text
+		tiempo = int(self.txt_tiempo.text)
+		recursos = self.txt_recursos.text.replace(" ", "").split(",")
+		
+		if '' in recursos: 
+			recursos.remove('')
+		
+		n_procesador = int(self.txt_procesador.text)
+
+		self.sistema.agregar_proceso(nombre, tiempo, recursos, n_procesador)

@@ -1,1 +1,1 @@
-from rrapp import RRApp
+from apps import *

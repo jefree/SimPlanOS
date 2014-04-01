@@ -1,15 +1,9 @@
 from planificador import Planificador
-from logica.proceso import *
+from logica.proceso import ProcesoQuantum
 from logica.util import Cola
 import os
 
 class RoundRobin(Planificador):
-	
-	def __init__(self):
-		Planificador.__init__(self)
-		
-		self.cuanto_suspendido = 3
-		self.contador_suspendido = 3
 
 	def obtener_proceso(self):
 
@@ -22,6 +16,8 @@ class RoundRobin(Planificador):
 
 			self.contador_suspendido = self.cuanto_suspendido
 			self.listos.insertar(self.suspendidos.atender())
+
+			self.vista.informar_entra_listo()
 
 			self.calcular_cuantos()
 
@@ -96,7 +92,6 @@ class RoundRobin(Planificador):
 		self.listos = cola
 
 	def agregar_proceso(self, nombre, tiempo, sistema, recursos):
-		
 		p = ProcesoQuantum(nombre, tiempo, sistema, recursos)
 
 		self.listos.insertar(p)

@@ -1,6 +1,6 @@
 
 import gui
-from gui import RRApp
+from gui import *
 
 import thread
 from time import sleep

@@ -10,6 +10,9 @@ class Planificador():
 		self.suspendidos = Cola()
 		self.bloqueados = Cola()
 
+		self.cuanto_suspendido = 3
+		self.contador_suspendido = 3
+
 	def planificar_pre(self, procesador):
 		
 		asignar_nuevo = False

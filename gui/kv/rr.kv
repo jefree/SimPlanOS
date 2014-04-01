@@ -7,6 +7,11 @@
 	BoxLayout:
 		orientation: 'vertical'
 
+		Label:
+			color: 1,0,0,1
+			size_hint_y: 0.1
+			id: titulo
+
 		# layout procesadores
 		BoxLayout: 
 			size_hint_y: 1.5
@@ -84,7 +89,7 @@
 
 				Button:
 					text: "Before"
-					on_press: root.manager.current = root.manager().previous()
+					on_press: root.manager.current = root.manager.previous()
 
 				Button:
 					text: 'Iniciar'
@@ -153,12 +158,12 @@
 			text:'LISTOS'
 		ScrollView:
 			do_scroll_x: False
-			GridLayout:
+			StackLayout:
 				height: 150
 				spacing: 10
 				cols: 1
 				size_hint_y: None
-				orientation: 'vertical'
+				orientation: 'tb-lr'
 				id: listos
 
 	BoxLayout:
@@ -174,12 +179,12 @@
 			id: c_suspendido
 		ScrollView:
 			do_scroll_x: False
-			GridLayout:
+			StackLayout:
 				height: 150
 				spacing: 10
 				cols: 1
 				size_hint_y: None
-				orientation: 'vertical'
+				orientation: 'tb-lr'
 				id: suspendidos
 
 	BoxLayout:
@@ -190,12 +195,12 @@
 			text:'BLOQUEADOS'
 		ScrollView:
 			do_scroll_x: False
-			GridLayout:
+			StackLayout:
 				height: 150
 				spacing: 10
 				cols: 1
 				size_hint_y: None
-				orientation: 'vertical'
+				orientation: 'tb-lr'
 				id: bloqueados
 
 	Button:
