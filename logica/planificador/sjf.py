@@ -1,13 +1,10 @@
 from planificador import Planificador
-from logica.proceso import ProcesoPrioridad
-from logica.util import Cola
-from logica.proceso import LISTO
 
-class PrioridadApropiativo(Planificador):
+class SJF(Planificador):
 
 	def agregar_proceso(self, nombre, tiempo, sistema, recursos, **kwargs):
 
-		p = ProcesoPrioridad(nombre, tiempo, sistema, recursos, kwargs['prioridad'])
+		p = Proceso(nombre, tiempo, sistema, recursos)
 
 		self.agregar_ordenado(p)
 		self.vista.informar_entra_listo()
@@ -17,10 +14,12 @@ class PrioridadApropiativo(Planificador):
 	def agregar_ordenado(self, proceso):
 
 		cola = Cola()
+
+		cola = Cola()
 		p = self.listos.atender()
 
 		while p:
-			if proceso.prioridad < p.prioridad:
+			if proceso.tiempo < p.tiempo:
 				break
 
 			cola.insertar(p)
@@ -33,3 +32,7 @@ class PrioridadApropiativo(Planificador):
 			p = self.listos.atender()
 
 		self.listos = cola
+
+
+
+

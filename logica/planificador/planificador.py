@@ -13,6 +13,32 @@ class Planificador():
 		self.cuanto_suspendido = 3
 		self.contador_suspendido = 3
 
+	def obtener_proceso(self):
+		
+		proceso = None
+
+		if not self.listos.vacia():
+			proceso =  self.listos.atender()
+
+		elif not self.suspendidos.vacia():
+
+			self.contador_suspendido = self.cuanto_suspendido
+			self.listos.insertar(self.suspendidos.atender())
+			
+			proceso = self.listos.atender()
+
+			self.vista.informar_entra_listo()
+
+		return proceso	
+
+	def plan_listo(self, proceso_actual):
+
+		if proceso_actual.estado == TERMINADO:
+			self.suspendidos.insertar(proceso_actual)
+			return True
+
+		return False
+
 	def planificar_pre(self, procesador):
 		
 		asignar_nuevo = False
@@ -85,14 +111,30 @@ class Planificador():
 	def asignar_vista(self, vista):
 		self.vista = vista
 
-	def obtener_proceso(self):
-		pass
-
 	def plan_suspendidos(self):
-		pass
+		
+		if not self.suspendidos.vacia():
 
-	def agregar_proceso(self):
-		pass
+			if self.contador_suspendido == 0:
+				
+				p = self.suspendidos.atender()
+				p.estado = LISTO
+				
+				self.agregar_ordenado(p)
+				self.contador_suspendido = self.cuanto_suspendido
 
-	def plan_listo(self, proceso):
-		pass
+				self.vista.informar_entra_listo()
+
+			else:
+				self.contador_suspendido -= 1
+
+	def agregar_proceso(self, nombre, tiempo, sistema, recursos, **kwargs):
+
+		p = Proceso(nombre, tiempo, sistema, recursos)
+
+		self.listos.insertar(p)
+		self.vista.informar_entra_listo()
+
+		return p
+
+	
