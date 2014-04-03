@@ -9,13 +9,13 @@ from logica.sistema import SistemaRR
 
 class SimPlanRR(SimPlanOS):
 
-	def inicializar(self):
+	def inicializar(self, n_procesadores):
 		
-		self.sistema = SistemaRR(2)
+		self.sistema = SistemaRR(n_procesadores)
 		self.procesadores = [ProcesadorRR(p) for p in self.sistema.procesadores]
 		self.tabla_procesos = TablaProcesosRR(self.sistema.procesos)
 
-		self.popup_proceso = QuantumPopup(self.sistema)
+		self.popup_proceso = ProcesoPopup(self.sistema)
 
 class ProcesadorRR(ProcesadorGUI):
 
@@ -49,20 +49,4 @@ class TablaProcesosRR(TablaProcesosGUI):
 		for proceso in self.procesos.values():
 
 			visor = self.visores[proceso.nombre]
-			visor.text = str(proceso.cuanto)
-
-class QuantumPopup(ProcesoPopup):
-
-	def agregar(self):
-		ProcesoPopup.agregar(self)
-
-		nombre = self.txt_nombre.text
-		tiempo = int(self.txt_tiempo.text)
-		recursos = self.txt_recursos.text.replace(" ", "").split(",")
-		
-		if '' in recursos: 
-			recursos.remove('')
-		
-		n_procesador = int(self.txt_procesador.text)
-
-		self.sistema.agregar_proceso(nombre, tiempo, recursos, n_procesador)
+			visor.text = str(proceso.cuanto)	

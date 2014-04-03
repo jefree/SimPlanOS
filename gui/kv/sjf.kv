@@ -1,0 +1,314 @@
+<SimPlanOS>:
+
+	c_procesos: c_procesos
+	c_recursos: c_recursos
+	l_info: l_info
+
+	BoxLayout:
+		orientation: 'vertical'
+
+		Label:
+			color: 0.5,0.5,0.5,1
+			font_size: '25dp'
+			size_hint_y: 0.1
+			id: titulo
+
+		# layout procesadores
+		BoxLayout: 
+			size_hint_y: 1.5
+			id: procesadores
+
+		# demas elementos del gui
+		BoxLayout:
+			orientation: 'vertical'
+			BoxLayout: 
+				orientation: 'horizontal'
+				id: extras
+
+				# tabla con info de los procesos
+				BoxLayout:
+					size_hint_y: 0.7
+					orientation: 'vertical'
+
+					BoxLayout:
+						size_hint_y: 0.3
+
+						Label:
+							color: (0,0,1,1)
+							text: 'Proceso'
+						Label:
+							color: (0,0,1,1)
+							text: 'Tiempo'
+					
+					ScrollView:
+						do_scroll_x: False
+						GridLayout:
+							height: 150
+							spacing: 10
+							cols: 1
+							size_hint_y: None
+							orientation: 'vertical'
+							id: c_procesos
+
+				#tabla info recursos
+				BoxLayout:
+					size_hint_y: 0.7
+					orientation: 'vertical'
+
+					BoxLayout:
+						size_hint_y: 0.3
+						Label:
+							color: (0,1,1,1)
+							text: 'Recurso'
+						Label:
+							color: (0,1,1,1)
+							text: 'Usando'
+						Label:
+							color: (0,1,1,1)
+							text: 'Bloqueado'
+
+					ScrollView:
+						do_scroll_x: False
+						GridLayout:
+							height: 150
+							spacing: 10
+							cols: 1
+							size_hint_y: None
+							orientation: 'vertical'
+							id: c_recursos
+
+			Label:
+				id: l_info
+				size_hint_y: 0.2
+				text: 'Informacion'
+
+			BoxLayout:
+				size_hint_y: 0.2
+
+				Button:
+					text: "Before"
+					on_press: root.manager.current = root.manager.previous()
+
+				Button:
+					text: 'Iniciar'
+					on_press: root.iniciar()
+
+				Button:
+					text: 'Pausar'
+					on_press: root.pausar()
+
+				Button:
+					text: 'Paso'
+					on_press: root.hacer_paso()
+
+				Button:
+					text: 'Proceso'
+					on_press: root.mostrar_popup_proceso()
+
+				Button: 
+					text: 'Recursos'
+					on_press: root.mostrar_popup_recurso()
+
+				Button:
+					text: "Next"
+					on_press: root.manager.current = root.manager.next()
+
+<ProcesadorGUI>:
+	orientation: 'vertical'
+
+	BoxLayout:
+		size_hint_y: 1.2
+		orientation: "vertical"
+		
+		Label:
+			color: (1,0,1,1)
+			id: id_procesador
+
+		Label:
+			id: l_info
+			text: 'Informacion'
+
+		BoxLayout:
+			Label:
+				color: (0,0,1,1)
+				text: 'Proceso'
+			Label:
+				color: (0,0,1,1)
+				text: 'Tiempo'
+			Label:
+				color: (0,0,1,1)
+				text: 'Recursos'
+
+		BoxLayout:
+			Label:
+				id: nombre
+			Label:
+				id: tiempo
+			Label:
+				id: recursos
+
+	BoxLayout:
+		size_hint_y: 1.0
+		orientation: 'vertical'
+		Button:
+			size_hint_y: 0.3
+			color: (0,1,0,1)
+			text:'LISTOS'
+		ScrollView:
+			do_scroll_x: False
+			StackLayout:
+				height: 150
+				spacing: 10
+				cols: 1
+				size_hint_y: None
+				orientation: 'tb-lr'
+				id: listos
+
+	BoxLayout:
+		size_hint_y: 1.0
+		orientation: 'vertical'
+		Button:
+			size_hint_y: 0.3
+			color: (0,1,0,1)
+			text:'SUSPENDIDOS'
+		Label:
+			size_hint_y: 0.3
+			color: (1,0,0,1)
+			id: c_suspendido
+		ScrollView:
+			do_scroll_x: False
+			StackLayout:
+				height: 150
+				spacing: 10
+				cols: 1
+				size_hint_y: None
+				orientation: 'tb-lr'
+				id: suspendidos
+
+	BoxLayout:
+		orientation: 'vertical'
+		Button:
+			size_hint_y: 0.3
+			color: (0,1,0,1)
+			text:'BLOQUEADOS'
+		ScrollView:
+			do_scroll_x: False
+			StackLayout:
+				height: 150
+				spacing: 10
+				cols: 1
+				size_hint_y: None
+				orientation: 'tb-lr'
+				id: bloqueados
+
+	Button:
+		color: 1,0,0
+		size_hint_y: 0.2
+		text: "Gantt"
+		on_press: root.mostrar_gantt()
+
+<ProcesoPopup>:
+	
+	size_hint: (0.8, 0.8)
+
+	title: 'Agregar Proceso'
+
+	txt_nombre: txt_nombre
+	txt_tiempo: txt_tiempo
+	txt_recursos: txt_recursos
+	txt_procesador: txt_procesador
+	btn_lista: btn_lista
+
+	BoxLayout:
+		
+		BoxLayout:
+			orientation: 'vertical'
+
+			#contingencia
+			BoxLayout:
+
+			BoxLayout:
+				size_hint_y: 0.25
+
+				Label:
+					
+					text: 'Nombre'
+				TextInput:
+					id: txt_nombre
+
+			BoxLayout:
+				size_hint_y: 0.25
+				Label:
+					text: 'Tiempo'
+				TextInput:
+					id: txt_tiempo
+
+			BoxLayout:
+				size_hint_y: 0.25
+				Label:
+					text: 'Recursos'
+				TextInput:
+					id: txt_recursos
+
+			BoxLayout:
+				size_hint_y: 0.25
+				Label:
+					text: 'N. Procesador'
+				TextInput:
+					id: txt_procesador
+
+			#contingencia
+			BoxLayout:
+
+			Button:
+				size_hint_y: 0.3
+				text: 'Agregar'
+				on_press: root.agregar()
+
+		GridLayout:
+
+			rows: 3
+
+			Button:
+				id: btn_lista
+				size_hint: (0.8, 0.3)
+				text: 'Recursos'
+
+			#contingencia
+			FloatLayout:
+
+			#contingencia
+			FloatLayout:
+
+
+<RecursoPopup>:
+	
+	size_hint: (0.6, 0.8)
+
+	title: 'Agregar Recurso'
+
+	txt_nombre: txt_nombre
+
+	BoxLayout
+		orientation: 'vertical'
+		
+		BoxLayout:	
+			orientation: 'vertical'
+
+			BoxLayout:
+
+			BoxLayout:
+				size_hint_y: 0.25
+
+				Label:
+					size_hint_x: 0.8
+					text: 'Nombre'
+				TextInput:
+					id: txt_nombre
+
+			BoxLayout:
+
+			Button:
+				size_hint_y: 0.3
+				text: 'Agregar'
+				on_press: root.agregar()

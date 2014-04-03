@@ -7,7 +7,7 @@ from kivy.app import App
 
 from gui.simrr import SimPlanRR
 from gui.simpr import SimPlanPR
-
+from gui.simsjf import SimPlanSJF
 
 def ejecutar():
 
@@ -21,14 +21,18 @@ class Screnear(ScreenManager):
 
 		self.apps = []
 
-		rr = SimPlanRR(name='RoundRobin', archivo='gui/kv/rr.kv')
+		rr = SimPlanRR(3, name='RoundRobin', archivo='gui/kv/rr.kv')
 		Builder.unload_file('gui/kv/rr.kv')
 
-		pr = SimPlanPR(name='Prioridad Apropiativa', archivo='gui/kv/pr.kv')
+		pr = SimPlanPR(1, name='Prioridad Apropiativa', archivo='gui/kv/pr.kv')
 		Builder.unload_file('gui/kv/pr.kv')
+
+		sjf = SimPlanSJF(2, name='Short Job First', archivo='gui/kv/sjf.kv')
+		Builder.unload_file('gui/kv/sjf.kv')
 
 		self.apps.append(rr)
 		self.apps.append(pr)
+		self.apps.append(sjf)
 
 		rr.sistema.agregar_proceso("Java", 10, ["pantalla", "mouse"], 1)
 		rr.sistema.agregar_proceso("Word", 8, ["pantalla"], 1)

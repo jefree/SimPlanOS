@@ -66,9 +66,10 @@ class Planificador():
 		if asignar_nuevo:
 
 			procesador.proceso_asignado = self.obtener_proceso()
-			procesador.proceso_asignado.estado = LISTO
-			
-			self.vista.informar_nuevo()
+
+			if procesador.proceso_asignado: 
+				procesador.proceso_asignado.estado = LISTO
+				self.vista.informar_nuevo()
 
 	def planificar_post(self, procesador):
 		

@@ -30,9 +30,21 @@ class ProcesoPopup(Popup):
 
 	def agregar(self):
 
+		nombre = self.txt_nombre.text
+		tiempo = int(self.txt_tiempo.text)
+		recursos = self.txt_recursos.text.replace(" ", "").split(",")
+		
+		if '' in recursos: 
+			recursos.remove('')
+		
+		n_procesador = int(self.txt_procesador.text)
+
+		self.sistema.agregar_proceso(nombre, tiempo, recursos, n_procesador)
+
 		self.txt_nombre.text = ""
-		self.txt_tiempo = ""
+		self.txt_tiempo.text = ""
 		self.txt_recursos.text = ""
+		self.txt_procesador.text= ""
 		
 		self.dismiss()
 

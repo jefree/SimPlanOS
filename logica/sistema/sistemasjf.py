@@ -2,7 +2,7 @@ from sistema import Sistema
 from logica.procesador import Procesador
 from logica.planificador import SJF
 
-class SistemaPR(Sistema):
+class SistemaSJF(Sistema):
 
 	def __init__(self, n_procesadores):
 		Sistema.__init__(self)

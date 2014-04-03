@@ -16,13 +16,13 @@ TIEMPO_SLEEP = 0
 
 class SimPlanOS(Screen):
 	
-	def __init__(self, **kwargs):
+	def __init__(self, n_procesadores, **kwargs):
 
 		Builder.load_file(kwargs['archivo'])
 
 		Screen.__init__(self, **kwargs)
 
-		self.inicializar()
+		self.inicializar(n_procesadores)
 
 		self.ids.titulo.text = "Simulacion para "+self.name
 		
@@ -40,7 +40,7 @@ class SimPlanOS(Screen):
 
 		self.sistema.asignar_vista(self)
 
-	def inicializar(self):
+	def inicializar(self, n_procesadores):
 		pass
 
 	def actualizar(self):

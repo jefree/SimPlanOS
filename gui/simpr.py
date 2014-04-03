@@ -9,9 +9,9 @@ from logica.sistema import SistemaPR
 
 class SimPlanPR(SimPlanOS):
 
-	def inicializar(self):
+	def inicializar(self, n_procesadores):
 		
-		self.sistema = SistemaPR(3)
+		self.sistema = SistemaPR(n_procesadores)
 		self.procesadores = [ProcesadorGUI(p) for p in self.sistema.procesadores]
 		self.tabla_procesos = TablaProcesosPR(self.sistema.procesos)
 
