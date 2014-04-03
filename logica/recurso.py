@@ -25,8 +25,6 @@ class Recurso():
 
 	def bloquear(self, bloqueo):
 
-		print "here", self.nombre
-
 		if bloqueo:
 			self.estado = R_BLOQUEADO
 		else:

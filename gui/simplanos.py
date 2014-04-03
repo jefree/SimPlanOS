@@ -90,6 +90,7 @@ class SimPlanOS(Screen):
 
 	def informar_nuevo_proceso(self, nombre):
 		self.tabla_procesos.agregar(nombre)
+		self.tabla_procesos.actualizar()
 
 	def informar_nuevo_recurso(self, nombre):
 		self.tabla_recursos.agregar(nombre)
