@@ -28,9 +28,9 @@ class SimPlanOS(Screen):
 
 		self.inicializar(n_procesadores)
 
-		self.procesadores = self.procesadores or [ProcesadorGUI(p) for p in self.sistema.procesadores]
 		self.tabla_procesos = self.tabla_procesos or TablaProcesosGUI(self.sistema.procesos)
-
+		self.procesadores = self.procesadores or [ProcesadorGUI(p, self.tabla_procesos) for p in self.sistema.procesadores]
+		
 		self.popup_proceso = self.popup_proceso or ProcesoPopup(self.sistema)
 
 		self.ids.titulo.text = "Simulacion para "+self.name
@@ -119,12 +119,11 @@ class SimPlanOS(Screen):
 		
 class ProcesadorGUI(BoxLayout):
 	
-	def __init__(self, procesador):
+	def __init__(self, procesador, tabla):
 		BoxLayout.__init__(self)
 
 		self.procesador = procesador
-
-		self.ids.id_procesador.text = self.procesador.nombre
+		self.tabla = tabla
 
 		self.listos = ListaProcesosListos(self.ids.listos)
 		self.suspendidos = ListaProcesosSuspendidos(self.ids.suspendidos)
@@ -133,6 +132,7 @@ class ProcesadorGUI(BoxLayout):
 		self.diagrama_gantt = DiagramaGantt(self.procesador)
 		self.visores = { 'nombre': self.ids.nombre, 'tiempo': self.ids.tiempo, 'recursos':self.ids.recursos}
 
+		self.ids.id_procesador.text = self.procesador.nombre
 		self.procesador.planificador.asignar_vista(self)
 
 	def actualizar(self):
@@ -178,6 +178,8 @@ class ProcesadorGUI(BoxLayout):
 
 		self.listos.actualizar(self.procesador.planificador.listos)
 		self.suspendidos.actualizar(self.procesador.planificador.suspendidos)
+
+		self.tabla.actualizar()
 
 		sleep(TIEMPO_SLEEP)
 

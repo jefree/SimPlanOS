@@ -6,6 +6,11 @@ import os
 
 class RoundRobin(Planificador):
 
+	def agregar_listo(self, proceso):
+		Planificador.agregar_listo(self, proceso)
+		self.calcular_cuantos()
+		self.vista.informar_entra_listo()
+
 	def obtener_proceso(self):
 
 		proceso = None
@@ -98,9 +103,6 @@ class RoundRobin(Planificador):
 	def agregar_proceso(self, nombre, tiempo, sistema, recursos):
 		p = ProcesoQuantum(nombre, tiempo, sistema, recursos)
 
-		self.listos.insertar(p)
-		self.calcular_cuantos()
-
-		self.vista.informar_entra_listo()
+		self.agregar_listo(p)
 
 		return p

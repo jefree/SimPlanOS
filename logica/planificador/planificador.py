@@ -13,6 +13,10 @@ class Planificador():
 		self.cuanto_suspendido = 3
 		self.contador_suspendido = 3
 
+	def agregar_listo(self, proceso):
+		self.listos.insertar(proceso)
+		self.vista.informar_entra_listo()
+
 	def obtener_proceso(self):
 		
 		proceso = None
@@ -92,7 +96,7 @@ class Planificador():
 		while proceso:
 
 			if proceso.solicitar_desbloqueo():
-				self.listos.insertar(proceso)
+				self.agregar_listo(proceso)
 				proceso.estado = LISTO
 
 				self.vista.informar_desbloqueado(proceso.nombre)
@@ -128,8 +132,7 @@ class Planificador():
 
 		p = Proceso(nombre, tiempo, sistema, recursos)
 
-		self.listos.insertar(p)
-		self.vista.informar_entra_listo()
+		self.agregar_listo(p)
 
 		return p
 

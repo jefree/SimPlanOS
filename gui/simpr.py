@@ -12,7 +12,6 @@ class SimPlanPR(SimPlanOS):
 	def inicializar(self, n_procesadores):
 		
 		self.sistema = SistemaPR(n_procesadores)
-		self.procesadores = [ProcesadorGUI(p) for p in self.sistema.procesadores]
 		self.tabla_procesos = TablaProcesosPR(self.sistema.procesos)
 
 		self.popup_proceso = PrioridadPopup(self.sistema)

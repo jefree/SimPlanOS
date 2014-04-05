@@ -12,13 +12,13 @@ class SimPlanRR(SimPlanOS):
 	def inicializar(self, n_procesadores):
 		
 		self.sistema = SistemaRR(n_procesadores)
-		self.procesadores = [ProcesadorRR(p) for p in self.sistema.procesadores]
 		self.tabla_procesos = TablaProcesosRR(self.sistema.procesos)
+		self.procesadores = [ProcesadorRR(p, self.tabla_procesos) for p in self.sistema.procesadores]
 
 class ProcesadorRR(ProcesadorGUI):
 
-	def __init__(self, procesador):
-		ProcesadorGUI.__init__(self, procesador)
+	def __init__(self, procesador, tabla):
+		ProcesadorGUI.__init__(self, procesador, tabla)
 
 		self.visores['cuanto'] = self.ids.cuanto
 
