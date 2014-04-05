@@ -34,6 +34,9 @@ class Planificador():
 
 					self.bloqueados.insertar(proceso_actual)
 					self.vista.informar_bloqueado()
+
+				elif estado == TERMINADO:
+					proceso_actual.tiempo = -1
 		else:
 			asignar_nuevo = True
 

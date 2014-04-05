@@ -36,13 +36,18 @@ class Procesador():
 				self.gantt[p.nombre].append('B')
 
 			elif p.estado == LISTO:
-				self.gantt[p.nombre].append('L')
+
+				if self.proceso_asignado and p.nombre == self.proceso_asignado.nombre:
+					self.gantt[p.nombre].append('X')
+				else:
+					self.gantt[p.nombre].append('L')
 
 			elif p.estado == TERMINADO:
-				self.gantt[p.nombre].append('T')
 
-			elif p.nombre == self.proceso_asignado.nombre:
-				self.gantt[p.nombre].append('X')
+				if p.tiempo == 0:
+					self.gantt[p.nombre].append('X')
+				else:
+					self.gantt[p.nombre].append('T')
 
 	def agregar_proceso(self, nombre, tiempo, sistema, recursos, **kwargs):
 		
