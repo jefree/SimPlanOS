@@ -24,6 +24,11 @@ class SimPlanOS(Screen):
 
 		self.inicializar(n_procesadores)
 
+		self.procesadores = [ProcesadorGUI(p) for p in self.sistema.procesadores]
+		self.tabla_procesos = TablaProcesosGUI(self.sistema.procesos)
+
+		self.popup_proceso = ProcesoPopup(self.sistema)
+
 		self.ids.titulo.text = "Simulacion para "+self.name
 		
 		self.popup_recurso = RecursoPopup(self.sistema)
@@ -121,7 +126,7 @@ class ProcesadorGUI(BoxLayout):
 		self.suspendidos = ListaProcesosSuspendidos(self.ids.suspendidos)
 		self.bloqueados = ListaProcesosBloqueados(self.ids.bloqueados)
 
-		self.diagrama_gantt = DiagramaGantt(self.procesador.gantt, self.procesador.nombre)
+		self.diagrama_gantt = DiagramaGantt(self.procesador)
 		self.visores = { 'nombre': self.ids.nombre, 'tiempo': self.ids.tiempo, 'recursos':self.ids.recursos}
 
 		self.procesador.planificador.asignar_vista(self)

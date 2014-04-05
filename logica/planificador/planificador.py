@@ -25,18 +25,13 @@ class Planificador():
 			self.contador_suspendido = self.cuanto_suspendido
 			self.listos.insertar(self.suspendidos.atender())
 			
-			proceso = self.listos.atender()
-
 			self.vista.informar_entra_listo()
+
+			proceso = self.listos.atender()
 
 		return proceso	
 
 	def plan_listo(self, proceso_actual):
-
-		if proceso_actual.estado == TERMINADO:
-			self.suspendidos.insertar(proceso_actual)
-			return True
-
 		return False
 
 	def planificar_pre(self, procesador):

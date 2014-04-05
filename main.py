@@ -8,6 +8,7 @@ from kivy.app import App
 from gui.simrr import SimPlanRR
 from gui.simpr import SimPlanPR
 from gui.simsjf import SimPlanSJF
+from gui.simsrjf import SimPlanSRJF
 
 def ejecutar():
 
@@ -30,18 +31,22 @@ class Screnear(ScreenManager):
 		sjf = SimPlanSJF(2, name='Short Job First', archivo='gui/kv/sjf.kv')
 		Builder.unload_file('gui/kv/sjf.kv')
 
+		srjf = SimPlanSRJF(5, name='Short Remainnig Job First', archivo='gui/kv/sjf.kv')
+		Builder.unload_file('gui/kv/sjf.kv')
+
 		self.apps.append(rr)
 		self.apps.append(pr)
 		self.apps.append(sjf)
+		self.apps.append(srjf)
 
-		rr.sistema.agregar_proceso("Java", 10, ["pantalla", "mouse"], 1)
-		rr.sistema.agregar_proceso("Word", 8, ["pantalla"], 1)
+		srjf.sistema.agregar_proceso("Java", 10, [],1)
+		srjf.sistema.agregar_proceso("Word", 8, [], 1)
 
-		rr.sistema.agregar_proceso("Geany", 5, ["pantalla"], 2)
-		rr.sistema.agregar_proceso("Excel", 12, ["pantalla", "mouse"], 2)
+		srjf.sistema.agregar_proceso("Geany", 5, [], 1)
+		srjf.sistema.agregar_proceso("Excel", 12, [], 1)
 
-		rr.sistema.agregar_recurso("pantalla")
-		rr.sistema.agregar_recurso("mouse")
+		#srjf.sistema.agregar_recurso("pantalla")
+		#srjf.sistema.agregar_recurso("mouse")
 
 		for app in self.apps:
 			self.add_widget(app)

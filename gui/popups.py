@@ -64,11 +64,11 @@ class RecursoPopup(Popup):
 
 class DiagramaGantt(Popup):
 
-	def __init__(self, gantt, nombre):
-		Popup.__init__(self, size_hint=(1.0, 0.5), title='Gantt para %s' % nombre)
+	def __init__(self, procesador):
+		Popup.__init__(self, size_hint=(1.0, 0.5), title='Gantt para %s' % procesador.nombre)
 
-		self.gantt = gantt
-		self.tiempo = 0
+		self.procesador = procesador
+		self.gantt = self.procesador.gantt
 
 		self.contenedor = BoxLayout(orientation='vertical', size_hint_x=None)
 		self.procesos = {}
@@ -84,36 +84,32 @@ class DiagramaGantt(Popup):
 		self.procesos[proceso] = fila
 		fila.add_widget(Label(size_hint_x=None, width=100, text=proceso))
 
-		if self.tiempo > 0:
-			for i in range(self.tiempo):
-				fila.add_widget(Label(size_hint_x=None, width=25, text='-'))
+		for i in self.gantt[proceso]:
+			fila.add_widget(Label(size_hint_x=None, width=25, text=i))
 
 		self.contenedor.add_widget(fila)
 
 	def actualizar(self):
-		
+
 		for nombre, info in self.gantt.iteritems():
 			if nombre not in self.procesos:
 				self.agregar_proceso(nombre)
 
 			fila = self.procesos[nombre]
 
-			if info[self.tiempo] == 'X':
+			if info[self.procesador.tiempo -1] == 'X':
 				color = (0,1,0,1)
 			
-			elif info[self.tiempo] == 'S':
+			elif info[self.procesador.tiempo -1] == 'S':
 				color = (1,0,1,1)
 
-			elif info[self.tiempo] == 'B':
+			elif info[self.procesador.tiempo -1] == 'B':
 				color = (1,0,0,1)
 
-			elif info[self.tiempo] == 'L':
+			elif info[self.procesador.tiempo -1] == 'L':
 				color = (1,1,1,1)
 
-			elif info[self.tiempo] == 'T':
+			elif info[self.procesador.tiempo -1] == 'T':
 				color = (1,1,0,1)
 
-			fila.add_widget(Label(size_hint_x=None, width=25, text=info[self.tiempo], color=color))
-
-		self.tiempo += 1
-
+			fila.add_widget(Label(size_hint_x=None, width=25, text=info[self.procesador.tiempo -1], color=color))

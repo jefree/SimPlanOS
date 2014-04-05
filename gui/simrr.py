@@ -15,8 +15,6 @@ class SimPlanRR(SimPlanOS):
 		self.procesadores = [ProcesadorRR(p) for p in self.sistema.procesadores]
 		self.tabla_procesos = TablaProcesosRR(self.sistema.procesos)
 
-		self.popup_proceso = ProcesoPopup(self.sistema)
-
 class ProcesadorRR(ProcesadorGUI):
 
 	def __init__(self, procesador):

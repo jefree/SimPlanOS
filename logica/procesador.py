@@ -11,9 +11,11 @@ class Procesador():
 
 		self.procesos = {}
 		self.gantt = OrderedDict()
+		self.tiempo = 0
 
 	def ejecutar(self):
 
+		self.tiempo += 1
 		self.planificador.planificar_pre(self)
 		
 		if self.proceso_asignado:
@@ -46,6 +48,6 @@ class Procesador():
 		
 		proceso = self.planificador.agregar_proceso(nombre, tiempo, sistema, recursos, **kwargs)
 		self.procesos[proceso.nombre] = proceso
-		self.gantt[proceso.nombre] = []
+		self.gantt[proceso.nombre] = ['-']*self.tiempo
 
 		return proceso
