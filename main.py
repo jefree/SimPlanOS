@@ -7,6 +7,7 @@ from kivy.app import App
 
 from gui.simrr import SimPlanRR
 from gui.simpr import SimPlanPR
+from gui.simprn import SimPlanPRN
 from gui.simsjf import SimPlanSJF
 from gui.simsrjf import SimPlanSRJF
 
@@ -29,10 +30,14 @@ class Screnear(ScreenManager):
 		srjf = SimPlanSRJF(5, name='Short Remainnig Job First', archivo='gui/kv/sjf.kv')
 		Builder.unload_file('gui/kv/sjf.kv')
 
+		prn = SimPlanPRN(2, name='Prioridad No Apropiativa', archivo='gui/kv/pr.kv')
+		Builder.unload_file('gui/kv/pr.kv')
+
 		self.apps['RR'] = rr
 		self.apps['PR'] = pr
 		self.apps['SJF'] = sjf
-		self.apps['SJRJF'] = srjf
+		self.apps['SRJF'] = srjf
+		self.apps['PRN'] = prn
 
 		self.agregar_procesos_defecto()
 
@@ -41,12 +46,12 @@ class Screnear(ScreenManager):
 
 	def agregar_procesos_defecto(self):
 
-		rr = self.apps['RR']
+		plan = self.apps['PRN']
 
-		rr.sistema.agregar_proceso('Java', 3, ["pantalla"], 1)
-		rr.sistema.agregar_proceso('Firefox', 2, ["pantalla"], 1)
+		plan.sistema.agregar_proceso('Java', 7, ["pantalla"], 1, prioridad=2)
+		plan.sistema.agregar_proceso('Firefox', 7, ["pantalla"], 1, prioridad=2)
 
-		rr.sistema.agregar_recurso("pantalla")
+		plan.sistema.agregar_recurso("pantalla")
 
 class SimApp(App):
 

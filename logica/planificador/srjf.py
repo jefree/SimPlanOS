@@ -11,7 +11,7 @@ class SRJF(SJF):
 		
 		proceso = self.listos.atender()
 
-		if (proceso.tiempo < proceso_actual.tiempo):
+		if proceso and (proceso.tiempo < proceso_actual.tiempo):
 			asignar_nuevo = True
 
 		while (proceso):

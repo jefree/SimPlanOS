@@ -33,3 +33,24 @@ class PrioridadApropiativo(Planificador):
 			p = self.listos.atender()
 
 		self.listos = cola
+
+class PrioridadNoApropiativo(PrioridadApropiativo):
+
+	def plan_listo(self, proceso_actual):
+
+		asignar_nuevo = False
+
+		cola_aux = Cola()
+		
+		proceso = self.listos.atender()
+
+		if proceso and (proceso.prioridad < proceso_actual.prioridad):
+			asignar_nuevo = True
+
+		while (proceso):
+			cola_aux.insertar(proceso)
+			proceso = self.listos.atender()
+
+		self.listos = cola_aux
+
+		return asignar_nuevo
