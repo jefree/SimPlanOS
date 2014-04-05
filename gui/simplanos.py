@@ -22,12 +22,16 @@ class SimPlanOS(Screen):
 
 		Screen.__init__(self, **kwargs)
 
+		self.procesadores = None
+		self.tabla_procesos = None
+		self.popup_proceso = None
+
 		self.inicializar(n_procesadores)
 
-		self.procesadores = [ProcesadorGUI(p) for p in self.sistema.procesadores]
-		self.tabla_procesos = TablaProcesosGUI(self.sistema.procesos)
+		self.procesadores = self.procesadores or [ProcesadorGUI(p) for p in self.sistema.procesadores]
+		self.tabla_procesos = self.tabla_procesos or TablaProcesosGUI(self.sistema.procesos)
 
-		self.popup_proceso = ProcesoPopup(self.sistema)
+		self.popup_proceso = self.popup_proceso or ProcesoPopup(self.sistema)
 
 		self.ids.titulo.text = "Simulacion para "+self.name
 		

@@ -28,6 +28,18 @@ class ProcesoPopup(Popup):
 	def usar_recurso(self, btn, recurso):
 		self.txt_recursos.text = self.txt_recursos.text + recurso + ", "
 
+	def info_nuevo(self):
+		return {}
+
+	def limpiar(self):
+
+		self.txt_nombre.text = ""
+		self.txt_tiempo.text = ""
+		self.txt_recursos.text = ""
+		self.txt_procesador.text= ""
+
+		self.dismiss()
+
 	def agregar(self):
 
 		nombre = self.txt_nombre.text
@@ -39,14 +51,10 @@ class ProcesoPopup(Popup):
 		
 		n_procesador = int(self.txt_procesador.text)
 
-		self.sistema.agregar_proceso(nombre, tiempo, recursos, n_procesador)
+		self.sistema.agregar_proceso(nombre, tiempo, recursos, n_procesador, **self.info_nuevo())
 
-		self.txt_nombre.text = ""
-		self.txt_tiempo.text = ""
-		self.txt_recursos.text = ""
-		self.txt_procesador.text= ""
+		self.limpiar()
 		
-		self.dismiss()
 
 class RecursoPopup(Popup):
 	

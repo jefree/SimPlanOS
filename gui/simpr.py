@@ -40,19 +40,13 @@ class TablaProcesosPR(TablaProcesosGUI):
 
 class PrioridadPopup(ProcesoPopup):
 
-	def agregar(self):
-		ProcesoPopup.agregar(self)
+	def __init__(self, sistema):
+		ProcesoPopup.__init__(self, sistema)
 
-		nombre = self.txt_nombre.text
-		tiempo = int(self.txt_tiempo.text)
-		recursos = self.txt_recursos.text.replace(" ", "").split(",")
+	def info_nuevo(self):
 		prioridad = int(self.txt_prioridad.text)
-		
-		if '' in recursos: 
-			recursos.remove('')
-		
-		n_procesador = int(self.txt_procesador.text)
+		return {'prioridad':prioridad}
 
-		self.sistema.agregar_proceso(nombre, tiempo, recursos, n_procesador, prioridad=prioridad)
-
-		self.prioridad.text = ""
+	def limpiar(self):
+		ProcesoPopup.limpiar(self)
+		self.txt_prioridad.text = ""
