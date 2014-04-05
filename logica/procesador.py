@@ -29,10 +29,7 @@ class Procesador():
 
 		for p in self.procesos.values():
 
-			if p.nombre == self.proceso_asignado.nombre:
-				self.gantt[p.nombre].append('X')
-			
-			elif p.estado == SUSPENDIDO:
+			if p.estado == SUSPENDIDO:
 				self.gantt[p.nombre].append('S')
 
 			elif p.estado == BLOQUEADO:
@@ -43,6 +40,9 @@ class Procesador():
 
 			elif p.estado == TERMINADO:
 				self.gantt[p.nombre].append('T')
+
+			elif p.nombre == self.proceso_asignado.nombre:
+				self.gantt[p.nombre].append('X')
 
 	def agregar_proceso(self, nombre, tiempo, sistema, recursos, **kwargs):
 		
