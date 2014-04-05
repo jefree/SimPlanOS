@@ -152,13 +152,21 @@ class ProcesadorGUI(BoxLayout):
 
 		self.diagrama_gantt.actualizar()
 
-	def informar_nuevo(self):
+	def informar_removido_actual(self):
 
-		global TIEMPO_SLEEP
+		self.limpiar_info_proceso()
 
+		self.bloqueados.actualizar(self.procesador.planificador.bloqueados)
 		self.suspendidos.actualizar(self.procesador.planificador.suspendidos)
 
+		sleep(TIEMPO_SLEEP)
+
+	def informar_nuevo(self):
+
 		proceso = self.procesador.proceso_asignado
+
+		self.listos.actualizar(self.procesador.planificador.listos)
+		self.suspendidos.actualizar(self.procesador.planificador.suspendidos)
 
 		if proceso:
 			self.actualizar_info_proceso(proceso)
@@ -203,7 +211,7 @@ class ProcesadorGUI(BoxLayout):
 	def limpiar_info_proceso(self):
 
 		for v in self.visores.values():
-			v.text = ''
+			v.text = '-'
 
 	def informar_desbloqueado(self, proceso):
 

@@ -28,9 +28,6 @@ class RoundRobin(Planificador):
 			self.calcular_cuantos()
 
 			proceso = self.listos.atender()
-			
-		if proceso:
-			proceso.cuanto -= 1
 
 		return proceso
 
@@ -38,12 +35,10 @@ class RoundRobin(Planificador):
 
 		asignar_nuevo = False
 
-		if proceso_actual.cuanto == 0:
-			self.suspendidos.insertar(proceso_actual)
-			asignar_nuevo = True
+		proceso_actual.cuanto -= 1
 
-		else:	
-			proceso_actual.cuanto -= 1
+		if proceso_actual.cuanto == 0:
+			asignar_nuevo = True
 
 		return asignar_nuevo
 

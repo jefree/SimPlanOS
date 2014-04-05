@@ -13,31 +13,6 @@ class Planificador():
 		self.cuanto_suspendido = 3
 		self.contador_suspendido = 3
 
-	def agregar_listo(self, proceso):
-		self.listos.insertar(proceso)
-		self.vista.informar_entra_listo()
-
-	def obtener_proceso(self):
-		
-		proceso = None
-
-		if not self.listos.vacia():
-			proceso =  self.listos.atender()
-
-		elif not self.suspendidos.vacia():
-
-			self.contador_suspendido = self.cuanto_suspendido
-			self.listos.insertar(self.suspendidos.atender())
-			
-			self.vista.informar_entra_listo()
-
-			proceso = self.listos.atender()
-
-		return proceso	
-
-	def plan_listo(self, proceso_actual):
-		return False
-
 	def planificar_pre(self, procesador):
 		
 		asignar_nuevo = False
@@ -49,26 +24,21 @@ class Planificador():
 		if proceso_actual:
 			estado = proceso_actual.estado
 
-			if estado == TERMINADO:
+			if estado != LISTO:
 				asignar_nuevo = True
 
-			elif estado == LISTO:
+				if estado == SUSPENDIDO:
+					self.suspendidos.insertar(proceso_actual)
 
-				asignar_nuevo = self.plan_listo(proceso_actual)
+				elif estado == BLOQUEADO:
 
-				if asignar_nuevo:
-					proceso_actual.estado = SUSPENDIDO
-					self.vista.informar_suspendido()
+					self.bloqueados.insertar(proceso_actual)
+					self.vista.informar_bloqueado()
 		else:
 			asignar_nuevo = True
 
 		if asignar_nuevo:
-
-			procesador.proceso_asignado = self.obtener_proceso()
-
-			if procesador.proceso_asignado: 
-				procesador.proceso_asignado.estado = LISTO
-				self.vista.informar_nuevo()
+			self.asignar_nuevo(procesador)
 
 	def planificar_post(self, procesador):
 		
@@ -77,12 +47,11 @@ class Planificador():
 		if proceso_actual:
 			estado = proceso_actual.estado
 
-			if estado == BLOQUEADO:
+			suspendido = self.plan_listo(proceso_actual)
 
-				self.vista.informar_bloqueado()
-
-				self.bloqueados.insertar(proceso_actual)
-				procesador.proceso_asignado = None
+			if estado == LISTO:
+				if suspendido:
+					proceso_actual.estado = SUSPENDIDO
 
 	def plan_bloqueados(self):
 
@@ -108,9 +77,6 @@ class Planificador():
 
 		self.bloqueados = cola
 
-	def asignar_vista(self, vista):
-		self.vista = vista
-
 	def plan_suspendidos(self):
 		
 		if not self.suspendidos.vacia():
@@ -127,6 +93,44 @@ class Planificador():
 
 			else:
 				self.contador_suspendido -= 1
+
+	def asignar_nuevo(self, procesador):
+
+		self.vista.informar_removido_actual()
+
+		procesador.proceso_asignado = self.obtener_proceso()
+
+		if procesador.proceso_asignado: 
+			procesador.proceso_asignado.estado = LISTO
+			self.vista.informar_nuevo()
+
+	def agregar_listo(self, proceso):
+		self.listos.insertar(proceso)
+		self.vista.informar_entra_listo()
+
+	def obtener_proceso(self):
+		
+		proceso = None
+
+		if not self.listos.vacia():
+			proceso =  self.listos.atender()
+
+		elif not self.suspendidos.vacia():
+
+			self.contador_suspendido = self.cuanto_suspendido
+			self.listos.insertar(self.suspendidos.atender())
+			
+			self.vista.informar_entra_listo()
+
+			proceso = self.listos.atender()
+
+		return proceso	
+
+	def plan_listo(self, proceso_actual):
+		return False
+
+	def asignar_vista(self, vista):
+		self.vista = vista
 
 	def agregar_proceso(self, nombre, tiempo, sistema, recursos, **kwargs):
 

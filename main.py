@@ -43,8 +43,10 @@ class Screnear(ScreenManager):
 
 		rr = self.apps['RR']
 
-		rr.sistema.agregar_proceso('Java', 10, [], 1)
-		rr.sistema.agregar_proceso('Firefox', 5, [], 1)
+		rr.sistema.agregar_proceso('Java', 3, ["pantalla"], 1)
+		rr.sistema.agregar_proceso('Firefox', 2, ["pantalla"], 1)
+
+		rr.sistema.agregar_recurso("pantalla")
 
 class SimApp(App):
 
