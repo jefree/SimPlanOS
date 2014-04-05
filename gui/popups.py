@@ -84,7 +84,7 @@ class DiagramaGantt(Popup):
 		self.procesos[proceso] = fila
 		fila.add_widget(Label(size_hint_x=None, width=100, text=proceso))
 
-		for i in self.gantt[proceso]:
+		for i in self.gantt[proceso][:-1]:
 			fila.add_widget(Label(size_hint_x=None, width=25, text=i))
 
 		self.contenedor.add_widget(fila)
