@@ -47,14 +47,12 @@ class Planificador():
 		
 		proceso_actual = procesador.proceso_asignado
 
-		if proceso_actual:
-			estado = proceso_actual.estado
+		if proceso_actual and proceso_actual.estado == LISTO:
 
-			cambiar = self.plan_listo(proceso_actual)
+			suspender = self.plan_listo(proceso_actual)
 
-			if estado == LISTO:
-				if cambiar:
-					proceso_actual.estado = SUSPENDIDO
+			if suspender:
+				proceso_actual.estado = SUSPENDIDO
 
 	def plan_bloqueados(self):
 
@@ -89,7 +87,7 @@ class Planificador():
 				p = self.suspendidos.atender()
 				p.estado = LISTO
 				
-				self.agregar_ordenado(p)
+				self.listos.insertar(p)
 				self.contador_suspendido = self.cuanto_suspendido
 
 				self.vista.informar_entra_listo()

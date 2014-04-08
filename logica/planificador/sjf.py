@@ -41,10 +41,15 @@ class SJF(Planificador):
 		while proceso_aux:
 
 			if proceso_nuevo.tiempo < proceso_aux.tiempo:
-				cola_aux.insertar(proceso_aux)
+
+				if proceso_aux != proceso_actual:
+					cola_aux.insertar(proceso_aux)
 
 			else:
-				cola_aux.insertar(proceso_nuevo)
+
+				if proceso_nuevo != proceso_actual:
+					cola_aux.insertar(proceso_nuevo)
+				
 				proceso_nuevo = proceso_aux
 			
 			proceso_aux = self.listos.atender()

@@ -48,9 +48,9 @@ class Screnear(ScreenManager):
 
 		plan = self.apps['SRJF']
 
-		plan.sistema.agregar_proceso('Java', 2, ["pantalla"], 1)
+		plan.sistema.agregar_proceso('Java', 4, ["pantalla"], 1)
 		plan.sistema.agregar_proceso('Firefox', 5, ["pantalla"], 1)
-		plan.sistema.agregar_proceso('Word', 3, ["pantalla"], 1)
+		plan.sistema.agregar_proceso('Word', 2, ["pantalla"], 1)
 
 		plan.sistema.agregar_recurso("pantalla")
 
