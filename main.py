@@ -46,10 +46,11 @@ class Screnear(ScreenManager):
 
 	def agregar_procesos_defecto(self):
 
-		plan = self.apps['PRN']
+		plan = self.apps['SRJF']
 
-		plan.sistema.agregar_proceso('Java', 7, ["pantalla"], 1, prioridad=2)
-		plan.sistema.agregar_proceso('Firefox', 7, ["pantalla"], 1, prioridad=2)
+		plan.sistema.agregar_proceso('Java', 2, ["pantalla"], 1)
+		plan.sistema.agregar_proceso('Firefox', 5, ["pantalla"], 1)
+		plan.sistema.agregar_proceso('Word', 3, ["pantalla"], 1)
 
 		plan.sistema.agregar_recurso("pantalla")
 

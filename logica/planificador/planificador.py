@@ -50,10 +50,10 @@ class Planificador():
 		if proceso_actual:
 			estado = proceso_actual.estado
 
-			suspendido = self.plan_listo(proceso_actual)
+			cambiar = self.plan_listo(proceso_actual)
 
 			if estado == LISTO:
-				if suspendido:
+				if cambiar:
 					proceso_actual.estado = SUSPENDIDO
 
 	def plan_bloqueados(self):
@@ -101,7 +101,7 @@ class Planificador():
 
 		self.vista.informar_removido_actual()
 
-		procesador.proceso_asignado = self.obtener_proceso()
+		procesador.proceso_asignado = self.obtener_proceso(procesador.proceso_asignado)
 
 		if procesador.proceso_asignado: 
 			procesador.proceso_asignado.estado = LISTO
@@ -111,7 +111,7 @@ class Planificador():
 		self.listos.insertar(proceso)
 		self.vista.informar_entra_listo()
 
-	def obtener_proceso(self):
+	def obtener_proceso(self, proceso_actual):
 		
 		proceso = None
 

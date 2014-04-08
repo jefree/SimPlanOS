@@ -4,37 +4,51 @@ from logica.util import Cola
 
 class SJF(Planificador):
 
-	def agregar_proceso(self, nombre, tiempo, sistema, recursos, **kwargs):
+	def obtener_proceso(self, proceso_actual):
 
-		p = Proceso(nombre, tiempo, sistema, recursos)
+		proceso = None
 
-		self.agregar_ordenado(p)
-		self.vista.informar_entra_listo()
+		if not self.listos.vacia():
 
-		return p
+			if proceso_actual == None:
+				proceso = self.listos.atender()
+			
+			else:
 
-	def agregar_ordenado(self, proceso):
+				if proceso_actual.tiempo == -1:
+					proceso_actual = self.listos.atender()
+				
+				proceso = self.obtener_proceso_menor(proceso_actual)
 
-		cola = Cola()
+		elif not self.suspendidos.vacia():
 
-		cola = Cola()
-		p = self.listos.atender()
+			self.contador_suspendido = self.cuanto_suspendido
+			self.listos.insertar(self.suspendidos.atender())
+			
+			self.vista.informar_entra_listo()
 
-		while p:
-			if proceso.tiempo < p.tiempo:
-				break
+			proceso = self.listos.atender()
 
-			cola.insertar(p)
-			p = self.listos.atender()
+		return proceso
 
-		cola.insertar(proceso)
+	def obtener_proceso_menor(self, proceso_actual):
 
-		while p:
-			cola.insertar(p)
-			p = self.listos.atender()
+		cola_aux = Cola()
 
-		self.listos = cola
+		proceso_aux = self.listos.atender()
+		proceso_nuevo = proceso_actual
 
+		while proceso_aux:
 
+			if proceso_nuevo.tiempo < proceso_aux.tiempo:
+				cola_aux.insertar(proceso_aux)
 
+			else:
+				cola_aux.insertar(proceso_nuevo)
+				proceso_nuevo = proceso_aux
+			
+			proceso_aux = self.listos.atender()
 
+		self.listos = cola_aux
+
+		return proceso_nuevo

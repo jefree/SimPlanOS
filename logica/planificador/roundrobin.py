@@ -11,7 +11,7 @@ class RoundRobin(Planificador):
 		self.calcular_cuantos()
 		self.vista.informar_entra_listo()
 
-	def obtener_proceso(self):
+	def obtener_proceso(self, proceso_actual):
 
 		proceso = None
 
