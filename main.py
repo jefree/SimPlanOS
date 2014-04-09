@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import thread
 
 from kivy.lang import Builder
@@ -16,21 +17,21 @@ class Screnear(ScreenManager):
 	def __init__(self):
 		ScreenManager.__init__(self)
 
-		self.apps = {}
+		self.apps = OrderedDict()
 
 		rr = SimPlanRR(3, name='RoundRobin', archivo='gui/kv/rr.kv')
 		Builder.unload_file('gui/kv/rr.kv')
 
-		pr = SimPlanPR(1, name='Prioridad Apropiativa', archivo='gui/kv/pr.kv')
+		pr = SimPlanPR(3, name='Prioridad Apropiativa', archivo='gui/kv/pr.kv')
 		Builder.unload_file('gui/kv/pr.kv')
 
-		sjf = SimPlanSJF(2, name='Short Job First', archivo='gui/kv/sjf.kv')
+		sjf = SimPlanSJF(3, name='Short Job First', archivo='gui/kv/sjf.kv')
 		Builder.unload_file('gui/kv/sjf.kv')
 
-		srjf = SimPlanSRJF(5, name='Short Remainnig Job First', archivo='gui/kv/sjf.kv')
+		srjf = SimPlanSRJF(3, name='Short Remainnig Job First', archivo='gui/kv/sjf.kv')
 		Builder.unload_file('gui/kv/sjf.kv')
 
-		prn = SimPlanPRN(2, name='Prioridad No Apropiativa', archivo='gui/kv/pr.kv')
+		prn = SimPlanPRN(3, name='Prioridad No Apropiativa', archivo='gui/kv/pr.kv')
 		Builder.unload_file('gui/kv/pr.kv')
 
 		self.apps['RR'] = rr
@@ -46,11 +47,15 @@ class Screnear(ScreenManager):
 
 	def agregar_procesos_defecto(self):
 
-		plan = self.apps['SRJF']
+		plan = self.apps['SJF']
 
-		plan.sistema.agregar_proceso('Java', 4, ["pantalla"], 1)
-		plan.sistema.agregar_proceso('Firefox', 5, ["pantalla"], 1)
-		plan.sistema.agregar_proceso('Word', 2, ["pantalla"], 1)
+		plan.sistema.agregar_proceso('Java', 4, ["pantalla"], 1, prioridad=2)
+		plan.sistema.agregar_proceso('Firefox', 3, ["pantalla"], 1, prioridad=3)
+		plan.sistema.agregar_proceso('Word', 1, ["pantalla"], 1, prioridad=1)
+		
+		plan.sistema.agregar_proceso('Excel', 3, ["pantalla"], 2, prioridad=1)
+
+		plan.sistema.agregar_proceso('Eclipse', 2, ["pantalla"], 3, prioridad=1)
 
 		plan.sistema.agregar_recurso("pantalla")
 

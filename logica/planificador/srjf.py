@@ -12,6 +12,7 @@ class SRJF(SJF):
 
 		while proceso:
 			if proceso.tiempo < proceso_actual.tiempo:
+
 				asignar_nuevo = True
 			
 			cola_aux.insertar(proceso)

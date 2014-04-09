@@ -2,10 +2,6 @@ R_NO_USADO = 0
 R_USADO = 1
 R_BLOQUEADO = 2
 
-R_RETIRADO = 3
-R_BLOQUEANDO = 4
-
-
 class Recurso():
 
 	def __init__(self, nombre):

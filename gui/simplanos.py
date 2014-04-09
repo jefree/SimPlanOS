@@ -186,17 +186,22 @@ class ProcesadorGUI(BoxLayout):
 
 		self.listos.actualizar(self.procesador.planificador.listos)
 		self.suspendidos.actualizar(self.procesador.planificador.suspendidos)
+		self.bloqueados.actualizar(self.procesador.planificador.bloqueados)
 
 		self.tabla.actualizar()
 
 		sleep(TIEMPO_SLEEP)
 
+	def actualizar_todo(self):
+		self.listos.actualizar(self.procesador.planificador.listos)
+		self.suspendidos.actualizar(self.procesador.planificador.suspendidos)
+		self.bloqueados.actualizar(self.procesador.planificador.bloqueados)
+
 	def informar_bloqueado(self):
 
 		nombre = self.procesador.proceso_asignado.nombre
-		bloqueando = ', '.join(self.procesador.proceso_asignado.listar_recursos_bloqueando())
 
-		self.ids.l_info.text = "%s bloqueado por %s" % (nombre, bloqueando)
+		self.ids.l_info.text = "%s bloqueado" % nombre
 
 		self.limpiar_info_proceso()
 
@@ -212,6 +217,8 @@ class ProcesadorGUI(BoxLayout):
 
 		for v in self.visores.values():
 			v.text = '-'
+
+		sleep(TIEMPO_SLEEP)
 
 	def informar_desbloqueado(self, proceso):
 
@@ -257,6 +264,4 @@ class ListaProcesosBloqueados(ListaProcesos):
 			
 		for proceso in procesos.listar():
 
-			bloqueando = ', '.join([r for r in proceso.listar_recursos_bloqueando()])
-
-			self.layout.add_widget(Label(size_hint_y=None, height=15, text=proceso.nombre + ": " + bloqueando ))
+			self.layout.add_widget(Label(size_hint_y=None, height=15, text=proceso.nombre))

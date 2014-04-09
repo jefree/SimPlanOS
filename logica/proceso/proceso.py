@@ -30,19 +30,14 @@ class Proceso():
 
 	def plan_recursos_necesarios(self):
 
+		solicitados = True
+
 		for recurso, estado in self.recursos_necesarios.iteritems():
 
 			if estado == R_NO_USADO:
+				solicitados = solicitados and self.solicitar_recurso(recurso)
 
-				if randint(0, 5) == 0:
-					self.solicitar_recurso(recurso)
-						
-			elif estado == R_USADO:
-
-				if self.solicitar_recurso(recurso):
-
-					if randint(0, 1) == 0:
-						self.liberar_recurso(recurso)
+		return solicitados
 
 	def solicitar_recurso(self, recurso):
 		"""
@@ -58,8 +53,6 @@ class Proceso():
 			obtenido = True
 		
 		else:
-
-			self.recursos_necesarios[recurso] = R_BLOQUEANDO
 			self.estado = BLOQUEADO
 
 		return obtenido 
@@ -69,82 +62,6 @@ class Proceso():
 		if self.recursos_necesarios[recurso] == R_USADO:
 			self.sistema.liberar_recurso(recurso)
 			self.recursos_necesarios[recurso] = R_NO_USADO
-
-	def retirar_recurso(self, recurso):
-		"""
-			Si un proceso se bloquea el sistema llamara este metodo
-			para retirar un recurso que este usando.
-
-			Cuando el proceso se reanude debera solicitar de nuevo 
-			los recursos retirados.
-		"""
-
-		self.recursos_necesarios[recurso] = R_RETIRADO
-
-	def solicitar_recursos_bloqueando(self):
-		""" El proceso solictara todos aquellos recursos que hayan 
-			bloqueado su ejecucion
-		"""
-		
-		r_bloqueando = self.listar_recursos_bloqueando()
-		obtenidos = True
-
-		for recurso in r_bloqueando:
-			
-			resultado = self.solicitar_recurso(recurso)
-			
-			obtenidos = obtenidos and resultado
-
-		return obtenidos
-
-	def recuperar_recursos(self):
-
-		"""
-			El proceso solicitara al sistema todos aquellos recursos
-			que le fueron quitados cuando entro en estado de bloqueo 
-		"""
-
-		recuperados = True
-
-		for recurso in self.listar_recursos_retirados():
-
-			resultado = self.solicitar_recurso(recurso)
-			recuperados = recuperados and resultado
-
-		return recuperados
-
-	def solicitar_desbloqueo(self):
-		"""
-			Un proceso bloqueado debera solicitar al sistema todos los recursos
-			que necesita para su ejecucion para pasar a estado de LISTO
-		"""
-
-		if self.solicitar_recursos_bloqueando() and self.recuperar_recursos():
-			self.estado = LISTO
-
-		return self.estado == LISTO
-
-
-	def listar_recursos_bloqueando(self):
-
-		lista = []
-
-		for recurso, estado in self.recursos_necesarios.iteritems():
-
-			if estado == R_BLOQUEANDO:
-				lista.append(recurso)
-
-		return lista
-
-	def listar_recursos_retirados(self):
-
-		lista = []
-
-		for recurso, estado in self.recursos_necesarios.iteritems():
-			if estado == R_RETIRADO:
-				lista.append(recurso)
-
-		return lista
 
 	def listar_recursos_usados(self):
 
@@ -156,18 +73,17 @@ class Proceso():
 
 		return lista
 
-	def terminar(self):
+	def liberar(self):
 
-		for recurso in self.recursos_necesarios:
+		for recurso in self.listar_recursos_usados():
 			self.liberar_recurso(recurso)
 
 	def ejecutar(self):
 
 		self.tiempo -= 1
 
-		if self.tiempo > 0:
-			self.plan_recursos_necesarios()
-
-		else:
+		if self.tiempo == 0:
 			self.estado = TERMINADO
-			self.terminar()
+			self.liberar()
+		
+			

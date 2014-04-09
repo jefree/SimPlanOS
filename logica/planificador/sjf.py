@@ -4,21 +4,20 @@ from logica.util import Cola
 
 class SJF(Planificador):
 
-	def obtener_proceso(self, proceso_actual):
+	def obtener_proceso(self):
 
-		proceso = None
+		proceso = None	#proceso que se asignara
 
 		if not self.listos.vacia():
+			proceso_aux = self.obtener_proceso_menor()
 
-			if proceso_actual == None:
-				proceso = self.listos.atender()
-			
+			if proceso_aux.plan_recursos_necesarios():
+				proceso = proceso_aux
 			else:
+				self.bloqueados.insertar(proceso_aux)
+				proceso = self.obtener_proceso()
 
-				if proceso_actual.tiempo == -1:
-					proceso_actual = self.listos.atender()
-				
-				proceso = self.obtener_proceso_menor(proceso_actual)
+				self.vista.actualizar_todo()
 
 		elif not self.suspendidos.vacia():
 
@@ -27,33 +26,29 @@ class SJF(Planificador):
 			
 			self.vista.informar_entra_listo()
 
-			proceso = self.listos.atender()
+			proceso = self.obtener_proceso()			
 
 		return proceso
 
-	def obtener_proceso_menor(self, proceso_actual):
+	def obtener_proceso_menor(self):
 
 		cola_aux = Cola()
+		proceso = self.listos.atender()
 
-		proceso_aux = self.listos.atender()
-		proceso_nuevo = proceso_actual
+		if proceso == None:
+			return None
 
-		while proceso_aux:
+		while not self.listos.vacia():
 
-			if proceso_nuevo.tiempo < proceso_aux.tiempo:
-
-				if proceso_aux != proceso_actual:
-					cola_aux.insertar(proceso_aux)
-
-			else:
-
-				if proceso_nuevo != proceso_actual:
-					cola_aux.insertar(proceso_nuevo)
-				
-				proceso_nuevo = proceso_aux
-			
 			proceso_aux = self.listos.atender()
+
+			if proceso_aux.tiempo < proceso.tiempo:
+				cola_aux.insertar(proceso)
+				proceso = proceso_aux
+			
+			else:
+				cola_aux.insertar(proceso_aux)
 
 		self.listos = cola_aux
 
-		return proceso_nuevo
+		return proceso

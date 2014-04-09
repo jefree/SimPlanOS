@@ -21,38 +21,35 @@ class Planificador():
 		self.plan_bloqueados()
 		self.plan_suspendidos()
 
-		if proceso_actual:
-			estado = proceso_actual.estado
-
-			if estado != LISTO:
-				asignar_nuevo = True
-
-				if estado == SUSPENDIDO:
-					self.suspendidos.insertar(proceso_actual)
-
-				elif estado == BLOQUEADO:
-
-					self.bloqueados.insertar(proceso_actual)
-					self.vista.informar_bloqueado()
-
-				elif estado == TERMINADO:
-					proceso_actual.tiempo = -1
-		else:
-			asignar_nuevo = True
-
-		if asignar_nuevo:
+		if proceso_actual == None:
 			self.asignar_nuevo(procesador)
 
 	def planificar_post(self, procesador):
 		
 		proceso_actual = procesador.proceso_asignado
 
+		if proceso_actual == None:
+			return
+
 		if proceso_actual and proceso_actual.estado == LISTO:
 
 			suspender = self.plan_listo(proceso_actual)
+			self.vista.actualizar_info_proceso(proceso_actual)
 
 			if suspender:
 				proceso_actual.estado = SUSPENDIDO
+				proceso_actual.liberar()
+
+				self.suspendidos.insertar(proceso_actual)
+				self.vista.actualizar_todo()
+				self.vista.limpiar_info_proceso()
+
+				procesador.proceso_asignado = None
+
+		elif proceso_actual.estado == TERMINADO:
+			self.vista.limpiar_info_proceso()
+
+			procesador.proceso_asignado = None
 
 	def plan_bloqueados(self):
 
@@ -65,7 +62,10 @@ class Planificador():
 
 		while proceso:
 
-			if proceso.solicitar_desbloqueo():
+			if proceso.plan_recursos_necesarios():
+
+				self.vista.informar_desbloqueado(proceso.nombre)
+
 				self.agregar_listo(proceso)
 				proceso.estado = LISTO
 
@@ -99,7 +99,7 @@ class Planificador():
 
 		self.vista.informar_removido_actual()
 
-		procesador.proceso_asignado = self.obtener_proceso(procesador.proceso_asignado)
+		procesador.proceso_asignado = self.obtener_proceso()
 
 		if procesador.proceso_asignado: 
 			procesador.proceso_asignado.estado = LISTO
@@ -109,12 +109,20 @@ class Planificador():
 		self.listos.insertar(proceso)
 		self.vista.informar_entra_listo()
 
-	def obtener_proceso(self, proceso_actual):
+	def obtener_proceso(self):
 		
-		proceso = None
+		proceso = None	#proceso que se asignara
 
 		if not self.listos.vacia():
-			proceso =  self.listos.atender()
+			proceso_aux =  self.listos.atender()
+
+			if proceso_aux.plan_recursos_necesarios():
+				proceso = proceso_aux
+			else:
+				self.bloqueados.insertar(proceso_aux)
+				proceso = self.obtener_proceso()
+
+				self.vista.actualizar_todo()
 
 		elif not self.suspendidos.vacia():
 
@@ -123,7 +131,7 @@ class Planificador():
 			
 			self.vista.informar_entra_listo()
 
-			proceso = self.listos.atender()
+			proceso = self.obtener_proceso()			
 
 		return proceso	
 

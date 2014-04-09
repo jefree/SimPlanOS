@@ -11,23 +11,30 @@ class RoundRobin(Planificador):
 		self.calcular_cuantos()
 		self.vista.informar_entra_listo()
 
-	def obtener_proceso(self, proceso_actual):
+	def obtener_proceso(self):
 
-		proceso = None
+		proceso = None	#proceso que se asignara
 
 		if not self.listos.vacia():
-			proceso =  self.listos.atender()
+			proceso_aux =  self.listos.atender()
+
+			if proceso_aux.plan_recursos_necesarios():
+				proceso = proceso_aux
+			else:
+				self.bloqueados.insertar(proceso_aux)
+				proceso = self.obtener_proceso()
+
+				self.vista.actualizar_todo()
 
 		elif not self.suspendidos.vacia():
 
 			self.contador_suspendido = self.cuanto_suspendido
 			self.listos.insertar(self.suspendidos.atender())
-
+			
 			self.vista.informar_entra_listo()
-
 			self.calcular_cuantos()
 
-			proceso = self.listos.atender()
+			proceso = self.obtener_proceso()			
 
 		return proceso
 
