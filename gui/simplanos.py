@@ -197,6 +197,8 @@ class ProcesadorGUI(BoxLayout):
 		self.suspendidos.actualizar(self.procesador.planificador.suspendidos)
 		self.bloqueados.actualizar(self.procesador.planificador.bloqueados)
 
+		sleep(TIEMPO_SLEEP)
+
 	def informar_bloqueado(self):
 
 		nombre = self.procesador.proceso_asignado.nombre

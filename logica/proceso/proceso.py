@@ -28,7 +28,7 @@ class Proceso():
 		for r in recursos_necesarios:
 			self.recursos_necesarios[r] = R_NO_USADO
 
-	def plan_recursos_necesarios(self):
+	def solicitar_recursos_necesarios(self):
 
 		solicitados = True
 

@@ -21,9 +21,9 @@ class Procesador():
 		if self.proceso_asignado:
 			self.proceso_asignado.ejecutar()
 
-		self.actualizar_gantt()
-
 		self.planificador.planificar_post(self)
+
+		self.actualizar_gantt()
 
 	def actualizar_gantt(self):
 
@@ -46,6 +46,7 @@ class Procesador():
 
 				if p.tiempo == 0:
 					self.gantt[p.nombre].append('X')
+					p.tiempo = -1
 				else:
 					self.gantt[p.nombre].append('T')
 

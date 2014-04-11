@@ -12,7 +12,7 @@ class PrioridadApropiativo(Planificador):
 		if not self.listos.vacia():
 			proceso_aux = self.obtener_proceso_menor()
 
-			if proceso_aux.plan_recursos_necesarios():
+			if proceso_aux.solicitar_recursos_necesarios():
 				proceso = proceso_aux
 			else:
 				self.bloqueados.insertar(proceso_aux)

@@ -28,7 +28,7 @@ class Screnear(ScreenManager):
 		sjf = SimPlanSJF(3, name='Short Job First', archivo='gui/kv/sjf.kv')
 		Builder.unload_file('gui/kv/sjf.kv')
 
-		srjf = SimPlanSRJF(3, name='Short Remainnig Job First', archivo='gui/kv/sjf.kv')
+		srjf = SimPlanSRJF(3, name='Short Remaining Job First', archivo='gui/kv/sjf.kv')
 		Builder.unload_file('gui/kv/sjf.kv')
 
 		prn = SimPlanPRN(3, name='Prioridad No Apropiativa', archivo='gui/kv/pr.kv')
@@ -47,17 +47,22 @@ class Screnear(ScreenManager):
 
 	def agregar_procesos_defecto(self):
 
-		plan = self.apps['SJF']
+		plan = self.apps['RR']
 
-		plan.sistema.agregar_proceso('Java', 4, ["pantalla"], 1, prioridad=2)
-		plan.sistema.agregar_proceso('Firefox', 3, ["pantalla"], 1, prioridad=3)
-		plan.sistema.agregar_proceso('Word', 1, ["pantalla"], 1, prioridad=1)
+		plan.sistema.agregar_proceso('Java', 1, ["pantalla"], 1)
+		plan.sistema.agregar_proceso('Firefox', 3, ["pantalla"], 1)
+		plan.sistema.agregar_proceso('Word', 1, ["pantalla"], 1)
 		
-		plan.sistema.agregar_proceso('Excel', 3, ["pantalla"], 2, prioridad=1)
+		plan.sistema.agregar_proceso('Excel', 3, ["pantalla"], 2)
+		#plan.sistema.agregar_proceso('video', 3, ["mouse"], 2)
 
-		plan.sistema.agregar_proceso('Eclipse', 2, ["pantalla"], 3, prioridad=1)
+		plan.sistema.agregar_proceso('Eclipse', 2, ["pantalla"], 3)
+		#plan.sistema.agregar_proceso('voz', 3, ["mouse"], 3)
 
 		plan.sistema.agregar_recurso("pantalla")
+		plan.sistema.agregar_recurso("teclado")
+		plan.sistema.agregar_recurso("mouse")
+		plan.sistema.agregar_recurso("impresora")
 
 class SimApp(App):
 

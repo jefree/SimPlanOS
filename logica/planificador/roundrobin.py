@@ -18,13 +18,15 @@ class RoundRobin(Planificador):
 		if not self.listos.vacia():
 			proceso_aux =  self.listos.atender()
 
-			if proceso_aux.plan_recursos_necesarios():
+			if proceso_aux.solicitar_recursos_necesarios():
 				proceso = proceso_aux
 			else:
 				self.bloqueados.insertar(proceso_aux)
+				
+				self.vista.actualizar_todo()
+
 				proceso = self.obtener_proceso()
 
-				self.vista.actualizar_todo()
 
 		elif not self.suspendidos.vacia():
 

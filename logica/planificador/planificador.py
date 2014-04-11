@@ -37,6 +37,7 @@ class Planificador():
 			self.vista.actualizar_info_proceso(proceso_actual)
 
 			if suspender:
+
 				proceso_actual.estado = SUSPENDIDO
 				proceso_actual.liberar()
 
@@ -62,7 +63,7 @@ class Planificador():
 
 		while proceso:
 
-			if proceso.plan_recursos_necesarios():
+			if proceso.solicitar_recursos_necesarios():
 
 				self.vista.informar_desbloqueado(proceso.nombre)
 
@@ -116,7 +117,7 @@ class Planificador():
 		if not self.listos.vacia():
 			proceso_aux =  self.listos.atender()
 
-			if proceso_aux.plan_recursos_necesarios():
+			if proceso_aux.solicitar_recursos_necesarios():
 				proceso = proceso_aux
 			else:
 				self.bloqueados.insertar(proceso_aux)
