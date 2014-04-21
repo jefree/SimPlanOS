@@ -1,5 +1,4 @@
 from planificador import Planificador
-from logica.proceso import Proceso
 from logica.util import Cola
 
 class SJF(Planificador):

@@ -27,7 +27,6 @@ class RoundRobin(Planificador):
 
 				proceso = self.obtener_proceso()
 
-
 		elif not self.suspendidos.vacia():
 
 			self.contador_suspendido = self.cuanto_suspendido

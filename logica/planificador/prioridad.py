@@ -1,7 +1,6 @@
 from planificador import Planificador
 from logica.proceso import ProcesoPrioridad
 from logica.util import Cola
-from logica.proceso import LISTO
 
 class PrioridadApropiativo(Planificador):
 
@@ -16,9 +15,10 @@ class PrioridadApropiativo(Planificador):
 				proceso = proceso_aux
 			else:
 				self.bloqueados.insertar(proceso_aux)
-				proceso = self.obtener_proceso()
-
+				
 				self.vista.actualizar_todo()
+
+				proceso = self.obtener_proceso()
 
 		elif not self.suspendidos.vacia():
 

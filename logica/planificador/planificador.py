@@ -1,4 +1,3 @@
-
 from logica.util import Cola
 from logica.proceso import *
 
