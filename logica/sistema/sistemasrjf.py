@@ -8,4 +8,4 @@ class SistemaSRJF(Sistema):
 		Sistema.__init__(self)
 
 		for n in range(n_procesadores):
-			self.procesadores.append(Procesador("Procesador %d" % (n+1), SRJF()))
+			self.procesadores.append(Procesador("Procesador %d" % (n+1), SRJF(self)))

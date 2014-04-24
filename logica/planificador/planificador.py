@@ -3,11 +3,13 @@ from logica.proceso import *
 
 class Planificador():
 	
-	def __init__(self):
+	def __init__(self, sistema):
 
 		self.listos = Cola()
 		self.suspendidos = Cola()
 		self.bloqueados = Cola()
+
+		self.sistema = sistema
 
 		self.cuanto_suspendido = 3
 		self.contador_suspendido = 3
@@ -50,6 +52,9 @@ class Planificador():
 			self.vista.limpiar_info_proceso()
 
 			procesador.proceso_asignado = None
+
+		if proceso_actual == None:
+			self.asignar_nuevo(procesador)
 
 	def plan_bloqueados(self):
 
@@ -99,7 +104,11 @@ class Planificador():
 
 		self.vista.informar_removido_actual()
 
-		procesador.proceso_asignado = self.obtener_proceso()
+		proceso_sin_confirmar = self.obtener_proceso()
+
+		#confirmar que el proceso se pued ejecutar
+		if self.sistema.dar_permiso_ejecucion(proceso_sin_confirmar):
+			procesador.proceso_asignado = proceso_sin_confirmar
 
 		if procesador.proceso_asignado: 
 			procesador.proceso_asignado.estado = LISTO

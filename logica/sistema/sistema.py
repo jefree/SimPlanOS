@@ -5,13 +5,12 @@ from logica.recurso import *
 from logica.procesador import *
 from logica.proceso import *
 from logica.planificador import RoundRobin
-
 class Sistema():
 
 	def __init__(self):
 
 		self.procesadores = []
-		self.procesos = {}
+		self.procesos = OrderedDict()
 		self.recursos = {}
 
 		self.contador_procesador = 0
@@ -22,6 +21,14 @@ class Sistema():
 			procesador.ejecutar()
 
 		self.plan_recursos()
+
+	def dar_permiso_ejecucion(self, proceso):
+		return True
+
+	def agregar_a_cola(self, proceso):
+
+		#insercion por FIFO 
+		self.procesos[proceso.nombre] = proceso
 	
 	def agregar_proceso(self, nombre, tiempo, recursos, n_procesador, **kwargs):
 
@@ -34,10 +41,9 @@ class Sistema():
 
 		proceso = self.procesadores[n].agregar_proceso(nombre, tiempo, self, recursos, **kwargs)
 
-		self.procesos[proceso.nombre] = proceso
+		self.agregar_a_cola(proceso)
 
 		self.vista.informar_nuevo_proceso(proceso.nombre)
-
 
 	def agregar_recurso(self, nombre):
 
